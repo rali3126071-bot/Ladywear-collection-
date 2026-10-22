@@ -4,79 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard — Lady Wear Collection</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #3B0B17;
-      --secondary: #9E1B42;
-      --accent: #D4AF37;
-      --bg: #FFF9FA;
-      --card-bg: #FFFFFF;
-      --text: #2C1820;
+      --bg: #0F0A0C;
+      --card-bg: #1A1216;
+      --gold: #D4AF37;
+      --text: #F7F4F0;
+      --text-muted: #B3A4A8;
+      --border: #3A2A30;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding: 20px; min-height: 100vh; }
-    .header { text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #F3E5E8; }
-    .header h1 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 24px; }
-    .card { background: var(--card-bg); padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(59, 11, 23, 0.06); margin-bottom: 20px; border: 1px solid #F3E5E8; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--primary); }
-    input { width: 100%; padding: 12px; border: 1px solid #E2D0D4; border-radius: 8px; font-size: 14px; outline: none; }
-    input:focus { border-color: var(--secondary); }
-    .btn { width: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-    .btn-gold { background: linear-gradient(135deg, #D4AF37, #AA7C11); color: #fff; }
-    .btn-secondary { background: #6C757D; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; }
+    .header { text-align: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .header h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 20px; }
+    .card { background: var(--card-bg); padding: 18px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); margin-bottom: 16px; border: 1px solid var(--border); }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 5px; color: var(--gold); text-transform: uppercase; }
+    input, select { width: 100%; padding: 10px 12px; background: #120C0F; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; color: var(--text); outline: none; }
+    .btn { width: 100%; background: linear-gradient(135deg, #D4AF37, #AA7C11); color: #0F0A0C; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; text-transform: uppercase; }
+    .btn-wa { background: #25D366; color: #FFF; }
+    .btn-secondary { background: #3A2A30; color: var(--text); margin-top: 6px; }
     .hidden { display: none !important; }
-    .member-item { background: #FAF0F2; padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #E8C5CE; }
-    .member-info h4 { color: var(--primary); font-size: 16px; }
-    .member-info p { font-size: 13px; color: #666; margin-top: 2px; }
-    .stamp-badge { display: inline-block; background: var(--secondary); color: white; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-top: 6px; }
-    .action-btns { display: flex; gap: 8px; margin-top: 10px; }
-    .action-btns button { flex: 1; padding: 8px; font-size: 12px; border-radius: 6px; }
-    .alert { padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 15px; }
-    .alert-error { background: #FFEBEE; color: #C62828; }
-    .alert-success { background: #E8F5E9; color: #2E7D32; }
+    .member-item { background: #120C0F; padding: 14px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border); }
+    .member-info h4 { color: var(--gold); font-size: 15px; }
+    .member-info p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .stamp-badge { display: inline-block; background: #2C1E25; color: var(--gold); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; margin-top: 6px; border: 1px solid var(--border); }
+    .action-row { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .alert { padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 12px; text-align: center; }
+    .alert-error { background: #3B0B17; color: #FF8A80; }
+    .alert-success { background: #064E3B; color: #6EE7B7; }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <h1>Lady Wear Collection</h1>
-    <p style="font-size: 12px; color: #777;">Admin Management Portal</p>
+    <h1>Staff Portal</h1>
+    <p style="font-size: 10px; color: var(--text-muted); letter-spacing: 2px;">Lady Wear Collection</p>
   </div>
 
   <div id="msgBox" class="alert hidden"></div>
 
-  <!-- Admin Login Form -->
   <div id="loginSec" class="card">
-    <h2 style="font-size: 18px; margin-bottom: 15px; color: var(--primary);">Staff Login</h2>
-    <div class="form-group">
-      <label>Admin Email</label>
-      <input type="email" id="adminEmail" placeholder="admin@ladywear.com">
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="adminPass" placeholder="••••••••">
-    </div>
-    <button id="loginBtn" class="btn">Login to Dashboard</button>
+    <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--gold);">Admin Login</h2>
+    <div class="form-group"><label>Email</label><input type="email" id="adminEmail" placeholder="admin@ladywear.com"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="adminPass" placeholder="••••••••"></div>
+    <button id="loginBtn" class="btn">Login</button>
   </div>
 
-  <!-- Admin Dashboard -->
   <div id="dashSec" class="hidden">
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <h3 style="font-size: 16px; color: var(--primary);">Customer Lookup</h3>
-        <button id="logoutBtn" style="background: none; border: none; color: var(--secondary); font-size: 12px; font-weight: 600; cursor: pointer;">Logout</button>
+    <!-- Coupon Verification Box -->
+    <div class="card" style="border-color: var(--gold);">
+      <h3 style="font-size: 14px; color: var(--gold); margin-bottom: 10px;">🎟️ Verify & Claim Coupon Code</h3>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="couponVerifyInp" placeholder="Enter Coupon Code (e.g. LWC-9A82)" style="text-transform:uppercase;">
+        <button id="verifyCouponBtn" class="btn" style="width: auto; padding: 10px 16px;">Verify</button>
       </div>
-      <div class="form-group">
-        <input type="text" id="searchInp" placeholder="Search by name or 10-digit mobile...">
-      </div>
-      <button id="exportBtn" class="btn btn-gold" style="margin-top: 5px;">📥 Export All Customers (CSV)</button>
     </div>
 
     <div class="card">
-      <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--primary);">Members List</h3>
-      <div id="membersList">Loading members...</div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="font-size: 14px; color: var(--gold);">Customer Search</h3>
+        <button id="logoutBtn" style="background: none; border: none; color: #FF8A80; font-size: 11px; font-weight: 600; cursor: pointer;">Logout</button>
+      </div>
+      <div class="form-group"><input type="text" id="searchInp" placeholder="Search by name or mobile..."></div>
+      <button id="exportBtn" class="btn btn-secondary" style="font-size: 12px; padding: 10px;">📥 Export Customers CSV</button>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size: 14px; margin-bottom: 10px; color: var(--gold);">Members List</h3>
+      <div id="membersList">Loading...</div>
     </div>
   </div>
 
@@ -97,7 +94,7 @@
       box.textContent = text;
       box.className = `alert ${isError ? 'alert-error' : 'alert-success'}`;
       box.classList.remove('hidden');
-      setTimeout(() => box.classList.add('hidden'), 4000);
+      setTimeout(() => box.classList.add('hidden'), 5000);
     }
 
     onAuthStateChanged(auth, (user) => {
@@ -114,7 +111,7 @@
     document.getElementById('loginBtn').addEventListener('click', async () => {
       const email = document.getElementById('adminEmail').value.trim();
       const pass = document.getElementById('adminPass').value.trim();
-      if (!email || !pass) return showMsg('Please enter both email and password', true);
+      if (!email || !pass) return showMsg('Enter email and password', true);
       try {
         await signInWithEmailAndPassword(auth, email, pass);
         showMsg('Login successful!');
@@ -134,14 +131,14 @@
         });
         renderMembers(allMembers);
       } catch (e) {
-        showMsg('Error fetching members: ' + e.message, true);
+        showMsg('Error: ' + e.message, true);
       }
     }
 
     function renderMembers(list) {
       const container = document.getElementById('membersList');
       if (list.length === 0) {
-        container.innerHTML = '<p style="font-size: 13px; color: #777;">No customer records found.</p>';
+        container.innerHTML = '<p style="font-size: 12px; color: var(--text-muted);">No records found.</p>';
         return;
       }
       container.innerHTML = list.map(m => `
@@ -150,12 +147,23 @@
             <h4>${m.name || 'Unnamed'}</h4>
             <p>📱 ${m.phone || 'No phone'}</p>
             <span class="stamp-badge">Stamps: ${m.stamps || 0} / 5</span>
-            ${m.rewardReady ? '<span class="stamp-badge" style="background:#D4AF37;">🎁 Reward Ready</span>' : ''}
-            ${m.rewardIssued ? '<span class="stamp-badge" style="background:#6C757D;">✓ Reward Claimed</span>' : ''}
+            <span class="stamp-badge">Reward: ${m.rewardType || 'Get 10% off'}</span>
+            ${m.couponCode ? `<span class="stamp-badge" style="color:#FFF;">Code: ${m.couponCode}</span>` : ''}
+            ${m.rewardReady && !m.rewardIssued ? '<span class="stamp-badge" style="background:#D4AF37; color:#0F0A0C;">🎁 Ready</span>' : ''}
+            ${m.rewardIssued ? '<span class="stamp-badge" style="background:#064E3B; color:#6EE7B7;">✓ Claimed</span>' : ''}
           </div>
-          <div class="action-btns">
-            <button class="btn" onclick="addStamp('${m.id}', ${m.stamps || 0})">+1 Stamp (₹500+)</button>
-            ${m.rewardReady && !m.rewardIssued ? `<button class="btn btn-gold" onclick="claimReward('${m.id}')">Issue Reward</button>` : ''}
+          <div class="action-row">
+            <div style="display: flex; gap: 6px;">
+              <select id="reward-sel-${m.id}" style="flex:1; padding:6px; font-size:11px;">
+                <option value="Get 10% off" ${m.rewardType === 'Get 10% off' ? 'selected' : ''}>Get 10% off</option>
+                <option value="Get 15% off" ${m.rewardType === 'Get 15% off' ? 'selected' : ''}>Get 15% off</option>
+                <option value="Get ₹100 off" ${m.rewardType === 'Get ₹100 off' ? 'selected' : ''}>Get ₹100 off</option>
+                <option value="Free Gift Item" ${m.rewardType === 'Free Gift Item' ? 'selected' : ''}>Free Gift Item</option>
+              </select>
+              <button class="btn" style="flex:1; padding:6px; font-size:11px;" onclick="addStamp('${m.id}', ${m.stamps || 0}, '${m.name || 'Customer'}')">+1 Stamp</button>
+            </div>
+            <button class="btn btn-wa" style="font-size:11px; padding:6px;" onclick="sendWhatsApp('${m.phone}', '${m.name}', ${m.stamps || 0}, '${m.rewardType || 'Offer'}', ${m.rewardReady || false})">📲 Notify on WhatsApp</button>
+            ${m.rewardReady && !m.rewardIssued ? `<button class="btn" style="background:#064E3B; color:#6EE7B7; font-size:11px; padding:6px;" onclick="claimReward('${m.id}')">Mark Reward Claimed</button>` : ''}
           </div>
         </div>
       `).join('');
@@ -170,45 +178,83 @@
       renderMembers(filtered);
     });
 
-    window.addStamp = async (id, currentStamps) => {
-      if (currentStamps >= 5) return showMsg('Already at maximum 5 stamps!', true);
+    window.addStamp = async (id, currentStamps, name) => {
+      if (currentStamps >= 5) return showMsg('Already at 5 stamps!', true);
       const newCount = currentStamps + 1;
       const isReady = newCount === 5;
+      const selectedReward = document.getElementById(`reward-sel-${id}`).value;
+      
+      // Unique Coupon Code generate karo
+      const generatedCode = isReady ? 'LWC-' + Math.random().toString(36).substring(2, 6).toUpperCase() : '';
+
       try {
-        await updateDoc(doc(db, "customers", id), {
+        const updateData = {
           stamps: newCount,
-          rewardReady: isReady
-        });
-        showMsg('Stamp added successfully!');
+          rewardReady: isReady,
+          rewardType: selectedReward,
+          isScratched: false
+        };
+        if (isReady) updateData.couponCode = generatedCode;
+
+        await updateDoc(doc(db, "customers", id), updateData);
+        showMsg(`Stamp added for ${name}!`);
         loadMembers();
       } catch (e) {
-        showMsg('Failed to update stamp: ' + e.message, true);
+        showMsg('Failed: ' + e.message, true);
       }
     };
 
-    window.claimReward = async (id) => {
+    window.sendWhatsApp = (phone, name, stamps, reward, isReady) => {
+      let msg = '';
+      if (isReady || stamps >= 5) {
+        msg = `Hello ${name}! 🥳\nCongratulations! Aapke Lady Wear Collection VIP Club me 5 stamps poore ho gaye hain.\n\n🎁 Reward: ${reward}\n\nApna scratch card dekhne ke liye website kholein:\nhttps://rali3126071-bot.github.io/Ladywear-collection-/`;
+      } else {
+        const rem = 5 - stamps;
+        msg = `Hello ${name}! 🎉\nLady Wear Collection me aapka naya stamp add ho gaya hai!\n\n📌 Total Stamps: ${stamps}/5\n⏳ Reward ke liye ${rem} stamp baaki hain.\n\nCard dekhein:\nhttps://rali3126071-bot.github.io/Ladywear-collection-/`;
+      }
+      window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    };
+
+    // Coupon Verification System
+    document.getElementById('verifyCouponBtn').addEventListener('click', async () => {
+      const code = document.getElementById('couponVerifyInp').value.trim().toUpperCase();
+      if (!code) return showMsg('Please enter a Coupon Code', true);
+
+      const customer = allMembers.find(m => m.couponCode === code);
+      if (!customer) return showMsg('❌ Invalid Coupon Code!', true);
+      if (customer.rewardIssued) return showMsg('⚠️ This Coupon Code has ALREADY been used!', true);
+
       try {
-        await updateDoc(doc(db, "customers", id), {
-          rewardIssued: true
-        });
-        showMsg('Reward marked as issued!');
+        await updateDoc(doc(db, "customers", customer.id), { rewardIssued: true });
+        showMsg(`✅ SUCCESS! Verified coupon for ${customer.name}. Reward (${customer.rewardType}) marked as USED.`);
+        document.getElementById('couponVerifyInp').value = '';
         loadMembers();
       } catch (e) {
-        showMsg('Failed to update reward: ' + e.message, true);
+        showMsg('Failed to verify: ' + e.message, true);
+      }
+    });
+
+    window.claimReward = async (id) => {
+      try {
+        await updateDoc(doc(db, "customers", id), { rewardIssued: true });
+        showMsg('Reward marked as claimed!');
+        loadMembers();
+      } catch (e) {
+        showMsg('Failed: ' + e.message, true);
       }
     };
 
     document.getElementById('exportBtn').addEventListener('click', () => {
-      if (!allMembers.length) return showMsg('No data to export', true);
-      let csv = 'Name,Phone,Stamps,Reward Ready,Reward Issued\n';
+      if (!allMembers.length) return showMsg('No data', true);
+      let csv = 'Name,Phone,Stamps,Reward Type,Coupon Code,Reward Ready,Reward Issued\n';
       allMembers.forEach(m => {
-        csv += `"${m.name || ''}","${m.phone || ''}",${m.stamps || 0},${m.rewardReady ? 'Yes' : 'No'},${m.rewardIssued ? 'Yes' : 'No'}\n`;
+        csv += `"${m.name || ''}","${m.phone || ''}",${m.stamps || 0},"${m.rewardType || ''}","${m.couponCode || ''}",${m.rewardReady ? 'Yes' : 'No'},${m.rewardIssued ? 'Yes' : 'No'}\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.setAttribute('href', url);
-      a.setAttribute('download', 'lady_wear_customers.csv');
+      a.setAttribute('download', 'lady_wear_vip_customers.csv');
       a.click();
     });
   </script>
