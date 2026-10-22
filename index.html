@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-  window.addEventListener('error', function(e) {
-    alert("Error: " + e.message + " at " + e.filename + ":" + e.lineno);
-  });
-</script>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lady Wear Collection — Loyalty Club</title>
@@ -22,28 +16,25 @@
       --text: #2C1820;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    body { background-color: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     .container { width: 100%; max-width: 420px; margin: 0 auto; }
-    .header { text-align: center; margin-bottom: 20px; margin-top: 10px; }
+    .header { text-align: center; margin-bottom: 20px; }
     .header h1 { font-family: 'Playfair Display', serif; color: var(--plum); font-size: 26px; }
     .header p { font-size: 13px; color: var(--berry); font-weight: 500; letter-spacing: 1px; }
     
     .card { background: var(--card-bg); padding: 24px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(59, 11, 23, 0.08); border: 1px solid var(--rose); margin-bottom: 20px; }
     
     .tabs { display: flex; background: #F3E5E8; border-radius: 12px; padding: 4px; margin-bottom: 20px; }
-    .tab-btn { flex: 1; border: none; background: transparent; padding: 10px; font-size: 13px; font-weight: 600; color: var(--plum); border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    .tab-btn { flex: 1; border: none; background: transparent; padding: 10px; font-size: 13px; font-weight: 600; color: var(--plum); border-radius: 8px; cursor: pointer; }
     .tab-btn.active { background: #FFFFFF; color: var(--berry); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
     
     .form-group { margin-bottom: 14px; text-align: left; }
     label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--plum); }
-    input { width: 100%; padding: 12px 14px; border: 1px solid var(--rose); border-radius: 10px; font-size: 14px; outline: none; transition: 0.3s; }
-    input:focus { border-color: var(--berry); box-shadow: 0 0 0 3px rgba(158, 27, 66, 0.1); }
+    input { width: 100%; padding: 12px 14px; border: 1px solid var(--rose); border-radius: 10px; font-size: 14px; outline: none; }
     
-    .btn { width: 100%; background: linear-gradient(135deg, var(--plum), var(--berry)); color: #FFF; border: none; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(158, 27, 66, 0.2); }
-    .btn:active { transform: scale(0.98); }
+    .btn { width: 100%; background: linear-gradient(135deg, var(--plum), var(--berry)); color: #FFF; border: none; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; }
     
-    .loyalty-card { background: linear-gradient(135deg, var(--plum), #24050E); color: #FFF; padding: 20px; border-radius: 18px; position: relative; overflow: hidden; border: 1px solid var(--gold); }
-    .loyalty-card::after { content: ''; position: absolute; top: -30px; right: -30px; width: 100px; height: 100px; background: rgba(212, 175, 55, 0.15); border-radius: 50%; }
+    .loyalty-card { background: linear-gradient(135deg, var(--plum), #24050E); color: #FFF; padding: 20px; border-radius: 18px; border: 1px solid var(--gold); }
     .card-title { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 20px; font-weight: 700; margin-bottom: 2px; }
     .card-member { font-size: 14px; margin-bottom: 15px; opacity: 0.9; }
     
@@ -52,6 +43,188 @@
     .stamp-circle.active { background: var(--gold); color: var(--plum); border-style: solid; font-weight: bold; }
     
     .progress-bar { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; overflow: hidden; margin-top: 15px; }
-    .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.4s ease; }
+    .progress-fill { height: 100%; background: var(--gold); width: 0%; }
     
-    .status-badge { display: inline-block; padding: 6px 1
+    .status-badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 15px; text-align: center; width: 100%; }
+    .badge-ready { background: var(--gold); color: var(--plum); }
+    .badge-progress { background: rgba(255, 255, 255, 0.15); color: #FFF; }
+    .badge-issued { background: #4CAF50; color: #FFF; }
+
+    .alert { padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 15px; text-align: center; }
+    .alert-error { background: #FFEBEE; color: #C62828; }
+    .alert-success { background: #E8F5E9; color: #2E7D32; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Lady Wear Collection</h1>
+      <p>LOYALTY CLUB</p>
+    </div>
+
+    <div id="msgBox" class="alert hidden"></div>
+
+    <div id="authSection" class="card">
+      <div class="tabs">
+        <button id="tabJoin" class="tab-btn active">Join Club</button>
+        <button id="tabView" class="tab-btn">Access Card</button>
+      </div>
+
+      <div id="joinForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="joinName" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+          <label>Mobile Number</label>
+          <input type="tel" id="joinPhone" placeholder="10-digit mobile number" maxlength="10">
+        </div>
+        <div class="form-group">
+          <label>Create Security PIN (4 digits)</label>
+          <input type="password" id="joinPin" placeholder="4-digit PIN" maxlength="4">
+        </div>
+        <button type="button" id="joinBtn" class="btn">Join Loyalty Club</button>
+      </div>
+
+      <div id="viewForm" class="hidden">
+        <div class="form-group">
+          <label>Mobile Number</label>
+          <input type="tel" id="viewPhone" placeholder="Enter mobile number" maxlength="10">
+        </div>
+        <div class="form-group">
+          <label>4-digit Security PIN</label>
+          <input type="password" id="viewPin" placeholder="Enter 4-digit PIN" maxlength="4">
+        </div>
+        <button type="button" id="viewBtn" class="btn">View My Loyalty Card</button>
+      </div>
+    </div>
+
+    <div id="cardSection" class="hidden">
+      <div class="loyalty-card">
+        <div class="card-title">Lady Wear Loyalty Card</div>
+        <div class="card-member" id="cardMemberName">Member</div>
+        <div class="stamps-grid">
+          <div class="stamp-circle" id="stamp-1">1</div>
+          <div class="stamp-circle" id="stamp-2">2</div>
+          <div class="stamp-circle" id="stamp-3">3</div>
+          <div class="stamp-circle" id="stamp-4">4</div>
+          <div class="stamp-circle" id="stamp-5">🎁</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div id="statusBadge" class="status-badge badge-progress">0 of 5 Stamps Collected</div>
+      </div>
+      <button id="logoutCardBtn" style="width:100%; margin-top: 15px; background: none; border: none; color: var(--berry); font-size: 13px; font-weight:600; cursor:pointer;">Switch Account</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXskxp0w8tAljV-6mCz-FN5sCuJagFpN4",
+      authDomain: "ladywear-collection-c9284.firebaseapp.com",
+      databaseURL: "https://ladywear-collection-c9284-default-rtdb.firebaseio.com",
+      projectId: "ladywear-collection-c9284",
+      storageBucket: "ladywear-collection-c9284.firebasestorage.app",
+      messagingSenderId: "276056105346",
+      appId: "1:276056105346:web:e54c9912b066032691ef9b",
+      measurementId: "G-Z863Y8GPSV"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const msgBox = document.getElementById('msgBox');
+    function showMsg(text, isError = false) {
+      msgBox.textContent = text;
+      msgBox.className = `alert ${isError ? 'alert-error' : 'alert-success'}`;
+      msgBox.classList.remove('hidden');
+      setTimeout(() => msgBox.classList.add('hidden'), 5000);
+    }
+
+    document.getElementById('tabJoin').addEventListener('click', () => {
+      document.getElementById('tabJoin').classList.add('active');
+      document.getElementById('tabView').classList.remove('active');
+      document.getElementById('joinForm').classList.remove('hidden');
+      document.getElementById('viewForm').classList.add('hidden');
+    });
+
+    document.getElementById('tabView').addEventListener('click', () => {
+      document.getElementById('tabView').classList.add('active');
+      document.getElementById('tabJoin').classList.remove('active');
+      document.getElementById('viewForm').classList.remove('hidden');
+      document.getElementById('joinForm').classList.add('hidden');
+    });
+
+    const savedPhone = localStorage.getItem('lwc_member_phone');
+    if (savedPhone) { fetchCustomer(savedPhone); }
+
+    document.getElementById('joinBtn').addEventListener('click', async () => {
+      const name = document.getElementById('joinName').value.trim();
+      const phone = document.getElementById('joinPhone').value.trim();
+      const pin = document.getElementById('joinPin').value.trim();
+      if (!name || phone.length !== 10 || pin.length !== 4) return showMsg('Enter valid Name, 10-digit Phone, 4-digit PIN', true);
+      try {
+        await signInAnonymously(auth);
+        const ref = doc(db, "customers", phone);
+        if ((await getDoc(ref)).exists()) return showMsg('Number already registered! Access Card instead.', true);
+        await setDoc(ref, { name, phone, pin, stamps: 0, rewardReady: false, rewardIssued: false });
+        localStorage.setItem('lwc_member_phone', phone);
+        renderCard({ name, stamps: 0, rewardReady: false, rewardIssued: false });
+        showMsg('Welcome to Lady Wear Collection!');
+      } catch (e) { showMsg('Error: ' + e.message, true); }
+    });
+
+    document.getElementById('viewBtn').addEventListener('click', async () => {
+      const phone = document.getElementById('viewPhone').value.trim();
+      const pin = document.getElementById('viewPin').value.trim();
+      if (phone.length !== 10 || pin.length !== 4) return showMsg('Enter 10-digit Phone and 4-digit PIN', true);
+      try {
+        await signInAnonymously(auth);
+        const snap = await getDoc(doc(db, "customers", phone));
+        if (!snap.exists()) return showMsg('Account not found! Please join first.', true);
+        const data = snap.data();
+        if (data.pin !== pin) return showMsg('Incorrect PIN!', true);
+        localStorage.setItem('lwc_member_phone', phone);
+        renderCard(data);
+      } catch (e) { showMsg('Error: ' + e.message, true); }
+    });
+
+    async function fetchCustomer(phone) {
+      try {
+        await signInAnonymously(auth);
+        const snap = await getDoc(doc(db, "customers", phone));
+        if (snap.exists()) renderCard(snap.data());
+      } catch (e) {}
+    }
+
+    function renderCard(data) {
+      document.getElementById('authSection').classList.add('hidden');
+      document.getElementById('cardSection').classList.remove('hidden');
+      document.getElementById('cardMemberName').textContent = data.name;
+      const stamps = data.stamps || 0;
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`stamp-${i}`);
+        if (i <= stamps) { el.classList.add('active'); el.textContent = '✓'; }
+        else { el.classList.remove('active'); el.textContent = i === 5 ? '🎁' : i; }
+      }
+      document.getElementById('progressFill').style.width = `${(stamps / 5) * 100}%`;
+      const badge = document.getElementById('statusBadge');
+      if (data.rewardIssued) { badge.textContent = '✓ Reward Claimed'; badge.className = 'status-badge badge-issued'; }
+      else if (stamps >= 5) { badge.textContent = '🎉 Reward Ready!'; badge.className = 'status-badge badge-ready'; }
+      else { badge.textContent = `${stamps} of 5 Stamps Collected`; badge.className = 'status-badge badge-progress'; }
+    }
+
+    document.getElementById('logoutCardBtn').addEventListener('click', () => {
+      localStorage.removeItem('lwc_member_phone');
+      document.getElementById('cardSection').classList.add('hidden');
+      document.getElementById('authSection').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
