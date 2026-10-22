@@ -20,23 +20,19 @@
     body { background-color: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
     .container { width: 100%; max-width: 420px; margin: 0 auto; padding-bottom: 40px; }
 
-    /* Top Header */
     .top-header { text-align: center; margin-bottom: 20px; padding: 10px 0; border-bottom: 1px solid var(--rose); }
     .top-header h1 { font-family: 'Cinzel', serif; color: var(--plum); font-size: 20px; }
     .top-header p { font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
-    /* Stats Grid */
     .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
     .stat-card { background: var(--card-bg); border: 1px solid var(--rose); padding: 14px 8px; border-radius: 14px; text-align: center; box-shadow: 0 4px 15px rgba(59,11,23,0.04); }
     .stat-num { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700; color: var(--plum); }
     .stat-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 
-    /* Admin Action Tabs */
     .admin-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
     .admin-tab-btn { background: #FAF2F4; border: 1px solid var(--rose); color: var(--plum); padding: 10px 14px; border-radius: 12px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; }
     .admin-tab-btn.active { background: var(--plum); color: #FFF; border-color: var(--plum); }
 
-    /* Card Box */
     .card { background: var(--card-bg); padding: 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(59, 11, 23, 0.06); border: 1px solid var(--rose); margin-bottom: 20px; }
     .card-title { font-family: 'Cinzel', serif; color: var(--plum); font-size: 16px; font-weight: 700; margin-bottom: 14px; }
 
@@ -80,7 +76,7 @@
         <label>Password</label>
         <input type="password" id="adminPass" placeholder="••••••••">
       </div>
-      <button id="loginBtn" class="btn-primary">Login to Portal</button>
+      <button id="loginBtn" class="btn-primary" type="button">Login to Portal</button>
     </div>
 
     <!-- Dashboard Section -->
@@ -103,9 +99,9 @@
 
       <!-- Action Sub-tabs -->
       <div class="admin-tabs">
-        <button class="admin-tab-btn active" id="subTabCard">Issue scratch card</button>
-        <button class="admin-tab-btn" id="subTabVerify">Verify coupon</button>
-        <button class="admin-tab-btn" id="subTabMembers">All members</button>
+        <button class="admin-tab-btn active" id="subTabCard" type="button">Issue scratch card</button>
+        <button class="admin-tab-btn" id="subTabVerify" type="button">Verify coupon</button>
+        <button class="admin-tab-btn" id="subTabMembers" type="button">All members</button>
       </div>
 
       <!-- Issue Scratch Card Panel -->
@@ -133,7 +129,7 @@
           <label>Expiry (days)</label>
           <input type="number" id="issueExpiryDays" value="30">
         </div>
-        <button id="createCardBtn" class="btn-primary">Create scratch card</button>
+        <button id="createCardBtn" class="btn-primary" type="button">Create scratch card</button>
       </div>
 
       <!-- Verify Coupon Panel -->
@@ -143,20 +139,20 @@
           <label>Enter Coupon Code</label>
           <input type="text" id="verifyCodeInp" placeholder="e.g. LW-19LFMTEP" style="text-transform:uppercase;">
         </div>
-        <button id="verifyCodeBtn" class="btn-primary">Verify & Use Coupon</button>
+        <button id="verifyCodeBtn" class="btn-primary" type="button">Verify & Use Coupon</button>
       </div>
 
       <!-- Members List Panel -->
       <div class="card hidden" id="panelMembers">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div class="card-title" style="margin-bottom:0;">Members Directory</div>
-          <button id="logoutBtn" style="background:none; border:none; color:#C62828; font-weight:700; font-size:11px; cursor:pointer;">LOGOUT</button>
+          <button id="logoutBtn" style="background:none; border:none; color:#C62828; font-weight:700; font-size:11px; cursor:pointer;" type="button">LOGOUT</button>
         </div>
         <div class="form-group" style="margin-bottom: 14px;">
           <input type="text" id="searchInp" placeholder="Search name or mobile...">
         </div>
         <div id="membersListContainer">Loading members...</div>
-        <button id="exportCsvBtn" class="btn-primary btn-secondary" style="margin-top: 15px;">📥 Export Customers CSV</button>
+        <button id="exportCsvBtn" class="btn-primary btn-secondary" style="margin-top: 15px;" type="button">📥 Export Customers CSV</button>
       </div>
     </div>
   </div>
@@ -164,7 +160,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, collection, getDocs, doc, setDoc, updateDb, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCXskxp0w8tAljV-6mCz-FN5sCuJagFpN4",
@@ -216,7 +212,7 @@
 
     document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
 
-    // Sub-tabs switching
+    // Sub-tabs
     const subTabCard = document.getElementById('subTabCard');
     const subTabVerify = document.getElementById('subTabVerify');
     const subTabMembers = document.getElementById('subTabMembers');
@@ -279,8 +275,8 @@
             ${m.rewardIssued ? '<span class="badge" style="background:#2E7D32; color:#FFF;">Claimed</span>' : ''}
           </div>
           <div style="margin-top:8px; display:flex; gap:6px;">
-            <button class="btn-primary" style="padding:6px; font-size:10px;" onclick="addStamp('${m.id}', ${m.stamps || 0})">+1 Stamp</button>
-            <button class="btn-primary btn-secondary" style="padding:6px; font-size:10px; margin-top:0;" onclick="sendWhatsApp('${m.phone}', '${m.name}', ${m.stamps || 0})">WhatsApp</button>
+            <button class="btn-primary" style="padding:6px; font-size:10px;" onclick="window.addStamp('${m.id}', ${m.stamps || 0})">+1 Stamp</button>
+            <button class="btn-primary btn-secondary" style="padding:6px; font-size:10px; margin-top:0;" onclick="window.sendWhatsApp('${m.phone}', '${m.name}', ${m.stamps || 0})">WhatsApp</button>
           </div>
         </div>
       `).join('');
@@ -292,7 +288,6 @@
       renderMembersList(filtered);
     });
 
-    // Create Custom Scratch Card
     document.getElementById('createCardBtn').addEventListener('click', async () => {
       const phone = document.getElementById('issuePhone').value.trim();
       const reward = document.getElementById('issueReward').value;
@@ -339,7 +334,6 @@
       }
     });
 
-    // Verify Coupon
     document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
       const code = document.getElementById('verifyCodeInp').value.trim().toUpperCase();
       if (!code) return showMsg('Enter coupon code', true);
