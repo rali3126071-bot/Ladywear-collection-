@@ -108,14 +108,8 @@
           <input type="tel" id="issuePhone" placeholder="10-digit mobile" maxlength="10">
         </div>
         <div class="form-group">
-          <label>Scratch Card Reward</label>
-          <select id="issueReward">
-            <option value="5% off">5% off</option>
-            <option value="10% off">10% off</option>
-            <option value="₹50 off">₹50 off</option>
-            <option value="₹100 off">₹100 off</option>
-            <option value="Free gift" selected>Free gift</option>
-          </select>
+          <label>Custom Reward Name (Type here)</label>
+          <input type="text" id="issueRewardCustom" placeholder="e.g. Free Gift, Flat ₹100 Off, 10% Off">
         </div>
         <div class="form-group">
           <label>Minimum Purchase (₹)</label>
@@ -284,9 +278,9 @@
 
     document.getElementById('createCardBtn').addEventListener('click', async () => {
       const phone = document.getElementById('issuePhone').value.trim();
-      const reward = document.getElementById('issueReward').value;
-      const minSpend = document.getElementById('issueMinSpend').value;
-      const expiryDays = document.getElementById('issueExpiryDays').value;
+      const reward = document.getElementById('issueRewardCustom').value.trim() || "Free Gift";
+      const minSpend = document.getElementById('issueMinSpend').value || "500";
+      const expiryDays = document.getElementById('issueExpiryDays').value || "30";
 
       if (phone.length !== 10) return showMsg('Enter valid 10-digit mobile number', true);
 
@@ -295,33 +289,28 @@
         const snap = await getDoc(ref);
         const coupon = 'LW-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 
+        const cardData = {
+          rewardReady: true,
+          rewardType: reward,
+          couponCode: coupon,
+          minSpend: minSpend,
+          expiryDays: expiryDays,
+          isScratched: false,
+          rewardIssued: false
+        };
+
         if (snap.exists()) {
-          await updateDoc(ref, {
-            rewardReady: true,
-            rewardType: reward,
-            couponCode: coupon,
-            minSpend: minSpend,
-            expiryDays: expiryDays,
-            isScratched: false,
-            rewardIssued: false
-          });
+          await updateDoc(ref, cardData);
         } else {
-          await setDoc(ref, {
-            name: 'Customer',
-            phone: phone,
-            pin: '1234',
-            stamps: 5,
-            rewardReady: true,
-            rewardType: reward,
-            couponCode: coupon,
-            minSpend: minSpend,
-            expiryDays: expiryDays,
-            isScratched: false,
-            rewardIssued: false
-          });
+          cardData.name = 'Customer';
+          cardData.phone = phone;
+          cardData.pin = '1234';
+          cardData.stamps = 5;
+          await setDoc(ref, cardData);
         }
-        showMsg('✅ Scratch card issued successfully!');
+        showMsg('✅ Custom scratch card issued successfully!');
         document.getElementById('issuePhone').value = '';
+        document.getElementById('issueRewardCustom').value = '';
         loadDashboardData();
       } catch (e) {
         showMsg('Error issuing card: ' + e.message, true);
@@ -358,10 +347,12 @@
 
       if (isReady) {
         updateData.couponCode = 'LW-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-        updateData.rewardType = "Free gift";
+        updateData.rewardType = "Free Gift";
         updateData.minSpend = "500";
         updateData.isScratched = false;
         updateData.rewardIssued = false;
+      } else {
+        updateData.couponCode = "";
       }
 
       try {
