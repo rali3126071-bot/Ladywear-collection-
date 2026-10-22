@@ -1,60 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lady Wear Collection | Loyalty Club</title>
-<style>
-:root{--plum:#54224d;--pink:#e94f91;--rose:#fff0f6;--gold:#d9ad55;--ink:#2f2330;--muted:#786878;--line:#f0d8e5}
-*{box-sizing:border-box}body{margin:0;background:#fffafc;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-.top{background:var(--plum);color:#ffe5f0;text-align:center;padding:9px;font-size:11px;letter-spacing:.13em}
-.wrap{max-width:850px;margin:auto;padding:18px}.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}.brand{font-weight:850;color:var(--plum);font-size:20px}.brand small{display:block;font-size:9px;letter-spacing:.2em;color:var(--pink)}
-button{border:0;border-radius:12px;padding:13px 16px;font-weight:750;background:var(--pink);color:white;cursor:pointer}button.secondary{background:white;border:1px solid var(--line);color:var(--plum)}button:disabled{opacity:.5}
-.hero{padding:30px;border-radius:24px;background:linear-gradient(125deg,#53214e,#9c367b 62%,#e94f91);color:white}.eyebrow{font-size:11px;letter-spacing:.16em;color:#ffe2a7}.hero h1{font-family:Georgia,serif;font-size:clamp(36px,8vw,58px);line-height:1.04;margin:13px 0}.hero h1 span{color:#ffdba0}.hero p{max-width:480px;line-height:1.6;color:#ffedf6}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.stat,.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:16px}.stat b{display:block;color:var(--plum);font-size:18px}.stat span{font-size:11px;color:var(--muted)}
-h2{font-family:Georgia,serif;color:var(--plum);margin:25px 0 5px}p{color:var(--muted);line-height:1.55}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input{width:100%;border:1px solid #e8cddd;border-radius:11px;padding:13px;font:inherit;outline-color:var(--pink)}
-.msg{padding:10px 12px;background:var(--rose);border-radius:10px;font-size:13px;margin-top:10px;white-space:pre-wrap}.hidden{display:none!important}
-.stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0}.stamp{aspect-ratio:1;border:2px dashed #e8bdd3;border-radius:50%;display:grid;place-items:center;font-size:25px;color:#d4a1bb;background:#fff8fb}.stamp.done{background:linear-gradient(135deg,#e94f91,#842c70);border:2px solid var(--gold);color:white}
-.progress{height:9px;background:#f7e5ef;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--gold))}.fine{font-size:11px}.footer{text-align:center;color:#9c8798;padding:25px;font-size:12px}
-.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}.badge{display:inline-block;border-radius:99px;padding:5px 10px;background:var(--rose);color:var(--plum);font-size:12px;font-weight:700}
-@media(max-width:540px){.wrap{padding:13px}.hero{padding:24px}.stats{gap:7px}.stat{padding:12px 8px}.stat b{font-size:15px}.stat span{font-size:10px}}
-</style>
-</head>
-<body>
-<div class="top">A LITTLE EXTRA LOVE FOR EVERY SHOPPING VISIT ✦</div>
-<header class="wrap nav"><div class="brand">♡ Lady Wear Collection<small>STYLE • COMFORT • YOU</small></div><a href="./admin.html" style="color:var(--plum);font-size:12px">Staff</a></header>
-<main class="wrap">
-<section class="hero"><div class="eyebrow">THE LADY WEAR LOYALTY CLUB</div><h1>Shop more.<br><span>Get rewarded.</span></h1><p>Join our free Loyalty Club and collect stamps on eligible purchases. Five stamps unlock your special reward.</p><button onclick="document.getElementById('memberArea').scrollIntoView({behavior:'smooth'})">Join the club →</button></section>
-<div class="stats"><div class="stat"><b>₹500+</b><span>Eligible purchase</span></div><div class="stat"><b>1 Stamp</b><span>Per eligible purchase</span></div><div class="stat"><b>5 Stamps</b><span>Unlock a reward</span></div></div>
-<section id="memberArea"><h2>Become a member</h2><p>New here? Enter your name and mobile number. Already a member on this device? Sign in to view your card.</p>
-<div class="panel">
-<div id="joinFields">
-<div class="field"><label for="name">Your name</label><input id="name" maxlength="70" autocomplete="name" placeholder="Enter your name"></div>
-<div class="field"><label for="phone">Indian mobile number</label><input id="phone" inputmode="tel" autocomplete="tel" placeholder="98765 43210"></div>
-<button id="joinBtn">Join Loyalty Club</button>
-<button id="viewBtn" class="secondary">Already a member? Login / View Card</button>
-</div>
-<div id="card" class="hidden">
-<div class="row" style="align-items:center"><div><span class="badge">MEMBER CARD</span><h2 id="memberTitle" style="margin-top:10px">Your Loyalty Card</h2></div><button id="editBtn" class="secondary">Back</button></div>
-<p id="memberPhone"></p><p id="stampCount">0 of 5 stamps</p><div class="stamps" id="stamps"></div><div class="progress"><div class="fill" id="fill"></div></div><p id="progressText"></p><div class="msg" id="rewardText"></div>
-</div><div id="message" class="msg hidden" role="status"></div>
-</div></section>
-<p class="fine">No SMS OTP is used. A name and phone number do not prove ownership of that number. This website saves a member profile to the signed-in browser account; changing devices may require staff assistance.</p>
-</main><footer class="footer">Lady Wear Collection · Made with care, for every visit ♡</footer>
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { firebaseConfig } from './firebase-config.js';
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
-const $=id=>document.getElementById(id); let ready=false, memberDoc=null;
-function showMessage(t){$('message').textContent=t;$('message').classList.remove('hidden')}
-function normalizePhone(v){let d=v.replace(/\D/g,'');if(d.startsWith('91')&&d.length===12)d=d.slice(2);if(!/^[6-9]\d{9}$/.test(d))throw Error('Enter a valid Indian 10-digit mobile number.');return '+91'+d}
-async function ensureAuth(){if(auth.currentUser)return auth.currentUser;const c=await signInAnonymously(auth);return c.user}
-function render(m){$('joinFields').classList.add('hidden');$('card').classList.remove('hidden');$('memberTitle').textContent='Hi, '+(m.name||'Member').trim().split(/\s+/)[0]+'!';$('memberPhone').textContent=m.phone||'';$('stampCount').textContent=Math.min(5,m.stamps||0)+' of 5 stamps';$('stamps').innerHTML=Array.from({length:5},(_,i)=>'<div class="stamp '+(i<(m.stamps||0)?'done':'')+'">'+(i<(m.stamps||0)?'♥':'♡')+'</div>').join('');$('fill').style.width=(Math.min(5,m.stamps||0)/5*100)+'%';$('progressText').textContent=(m.stamps||0)>=5?'You did it! Your reward is ready.':(5-(m.stamps||0))+' more stamp(s) to go.';$('rewardText').textContent=m.rewardIssued?'🎉 Reward already issued.':(m.stamps||0)>=5?'🎁 Reward unlocked! Show this card to the shop team.':'🎀 Collect stamps on eligible ₹500+ purchases.';memberDoc=m}
-async function lookup(){showMessage('');const user=await ensureAuth();const snap=await getDoc(doc(db,'members',user.uid));if(!snap.exists())throw Error('No member card found for this browser account. Join first, or ask shop staff for help.');render(snap.data())}
-$('joinBtn').onclick=async()=>{const b=$('joinBtn');b.disabled=true;try{showMessage('');const name=$('name').value.trim();if(name.length<2)throw Error('Enter your name (at least 2 characters).');const phone=normalizePhone($('phone').value);const user=await ensureAuth();const ref=doc(db,'members',user.uid);const snap=await getDoc(ref);if(snap.exists())throw Error('This browser account already has a loyalty card. Use “Already a member? Login / View Card”.');const m={uid:user.uid,name,phone,stamps:0,rewardIssued:false,joinedAt:new Date().toISOString()};await setDoc(ref,m);render(m);showMessage('Welcome to Lady Wear Loyalty Club!')}catch(e){showMessage(e.message||'Could not register. Check Firebase setup and rules.')}finally{b.disabled=false}};
-$('viewBtn').onclick=async()=>{const b=$('viewBtn');b.disabled=true;try{await lookup()}catch(e){showMessage(e.message||'Could not load card.')}finally{b.disabled=false}};
-$('editBtn').onclick=()=>{$('card').classList.add('hidden');$('joinFields').classList.remove('hidden');showMessage('')};
-onAuthStateChanged(auth,async u=>{ready=!!u;if(u){try{const s=await getDoc(doc(db,'members',u.uid));if(s.exists())render(s.data())}catch(e){showMessage('Firebase setup needed: '+e.message)}}});
-</script>
-</body></html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lady Wear Collection — Loyalty Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --plum: #3B0B17;
+      --berry: #9E1B42;
+      --rose: #E8C5CE;
+      --gold: #D4AF37;
+      --bg: #FFF9FA;
+      --card-bg: #FFFFFF;
+      --text: #2C1820;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .container { width: 100%; max-width: 420px; margin: 0 auto; }
+    .header { text-align: center; margin-bottom: 20px; margin-top: 10px; }
+    .header h1 { font-family: 'Playfair Display', serif; color: var(--plum); font-size: 26px; }
+    .header p { font-size: 13px; color: var(--berry); font-weight: 500; letter-spacing: 1px; }
+    
+    .card { background: var(--card-bg); padding: 24px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(59, 11, 23, 0.08); border: 1px solid var(--rose); margin-bottom: 20px; }
+    
+    .tabs { display: flex; background: #F3E5E8; border-radius: 12px; padding: 4px; margin-bottom: 20px; }
+    .tab-btn { flex: 1; border: none; background: transparent; padding: 10px; font-size: 13px; font-weight: 600; color: var(--plum); border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    .tab-btn.active { background: #FFFFFF; color: var(--berry); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    
+    .form-group { margin-bottom: 14px; text-align: left; }
+    label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--plum); }
+    input { width: 100%; padding: 12px 14px; border: 1px solid var(--rose); border-radius: 10px; font-size: 14px; outline: none; transition: 0.3s; }
+    input:focus { border-color: var(--berry); box-shadow: 0 0 0 3px rgba(158, 27, 66, 0.1); }
+    
+    .btn { width: 100%; background: linear-gradient(135deg, var(--plum), var(--berry)); color: #FFF; border: none; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(158, 27, 66, 0.2); }
+    .btn:active { transform: scale(0.98); }
+    
+    .loyalty-card { background: linear-gradient(135deg, var(--plum), #24050E); color: #FFF; padding: 20px; border-radius: 18px; position: relative; overflow: hidden; border: 1px solid var(--gold); }
+    .loyalty-card::after { content: ''; position: absolute; top: -30px; right: -30px; width: 100px; height: 100px; background: rgba(212, 175, 55, 0.15); border-radius: 50%; }
+    .card-title { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 20px; font-weight: 700; margin-bottom: 2px; }
+    .card-member { font-size: 14px; margin-bottom: 15px; opacity: 0.9; }
+    
+    .stamps-grid { display: flex; justify-content: space-between; margin: 20px 0; }
+    .stamp-circle { width: 52px; height: 52px; border-radius: 50%; border: 2px dashed var(--gold); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--gold); background: rgba(255, 255, 255, 0.05); }
+    .stamp-circle.active { background: var(--gold); color: var(--plum); border-style: solid; font-weight: bold; }
+    
+    .progress-bar { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; overflow: hidden; margin-top: 15px; }
+    .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.4s ease; }
+    
+    .status-badge { display: inline-block; padding: 6px 1
