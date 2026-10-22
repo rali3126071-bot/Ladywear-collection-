@@ -42,6 +42,7 @@
     
     .btn-primary { width: 100%; background: var(--plum); color: #FFF; border: none; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase; }
     .btn-secondary { background: #FAF2F4; color: var(--plum); border: 1px solid var(--rose); margin-top: 8px; }
+    .btn-danger { background: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2; }
 
     .member-item { background: #FAF2F4; padding: 14px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--rose); }
     .member-item h4 { font-family: 'Cinzel', serif; color: var(--plum); font-size: 14px; }
@@ -65,7 +66,6 @@
 
     <div id="msgBox" class="alert hidden"></div>
 
-    <!-- Login Section -->
     <div id="loginSec" class="card">
       <div class="card-title">Admin Login</div>
       <div class="form-group">
@@ -79,9 +79,7 @@
       <button id="loginBtn" class="btn-primary" type="button">Login to Portal</button>
     </div>
 
-    <!-- Dashboard Section -->
     <div id="dashSec" class="hidden">
-      <!-- Stats Overview -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-num" id="statMembers">0</div>
@@ -97,14 +95,12 @@
         </div>
       </div>
 
-      <!-- Action Sub-tabs -->
       <div class="admin-tabs">
         <button class="admin-tab-btn active" id="subTabCard" type="button">Issue scratch card</button>
         <button class="admin-tab-btn" id="subTabVerify" type="button">Verify coupon</button>
         <button class="admin-tab-btn" id="subTabMembers" type="button">All members</button>
       </div>
 
-      <!-- Issue Scratch Card Panel -->
       <div class="card" id="panelCard">
         <div class="card-title">Issue Custom Scratch Card</div>
         <div class="form-group">
@@ -132,7 +128,6 @@
         <button id="createCardBtn" class="btn-primary" type="button">Create scratch card</button>
       </div>
 
-      <!-- Verify Coupon Panel -->
       <div class="card hidden" id="panelVerify">
         <div class="card-title">Verify & Redeem Coupon</div>
         <div class="form-group">
@@ -142,7 +137,6 @@
         <button id="verifyCodeBtn" class="btn-primary" type="button">Verify & Use Coupon</button>
       </div>
 
-      <!-- Members List Panel -->
       <div class="card hidden" id="panelMembers">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div class="card-title" style="margin-bottom:0;">Members Directory</div>
@@ -212,7 +206,6 @@
 
     document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
 
-    // Sub-tabs
     const subTabCard = document.getElementById('subTabCard');
     const subTabVerify = document.getElementById('subTabVerify');
     const subTabMembers = document.getElementById('subTabMembers');
@@ -274,9 +267,10 @@
             ${m.couponCode ? `<span class="badge" style="background:var(--plum); color:#FFF;">${m.couponCode}</span>` : ''}
             ${m.rewardIssued ? '<span class="badge" style="background:#2E7D32; color:#FFF;">Claimed</span>' : ''}
           </div>
-          <div style="margin-top:8px; display:flex; gap:6px;">
-            <button class="btn-primary" style="padding:6px; font-size:10px;" onclick="window.addStamp('${m.id}', ${m.stamps || 0})">+1 Stamp</button>
-            <button class="btn-primary btn-secondary" style="padding:6px; font-size:10px; margin-top:0;" onclick="window.sendWhatsApp('${m.phone}', '${m.name}', ${m.stamps || 0})">WhatsApp</button>
+          <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn-primary" style="padding:6px; font-size:10px; flex:1;" onclick="window.addStamp('${m.id}', ${m.stamps || 0})">+1 Stamp</button>
+            <button class="btn-primary btn-danger" style="padding:6px; font-size:10px; flex:1; margin-top:0;" onclick="window.resetStamps('${m.id}')">🔄 Reset 0</button>
+            <button class="btn-primary btn-secondary" style="padding:6px; font-size:10px; flex:1; margin-top:0;" onclick="window.sendWhatsApp('${m.phone}', '${m.name}', ${m.stamps || 0})">WhatsApp</button>
           </div>
         </div>
       `).join('');
@@ -356,17 +350,43 @@
       if (currentStamps >= 5) return showMsg('Already at max stamps!', true);
       const newStamps = currentStamps + 1;
       const isReady = newStamps >= 5;
-      const coupon = isReady ? 'LW-' + Math.random().toString(36).substring(2, 10).toUpperCase() : '';
+      
+      const updateData = {
+        stamps: newStamps,
+        rewardReady: isReady
+      };
+
+      if (isReady) {
+        updateData.couponCode = 'LW-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+        updateData.rewardType = "Free gift";
+        updateData.minSpend = "500";
+        updateData.isScratched = false;
+        updateData.rewardIssued = false;
+      }
+
       try {
-        await updateDoc(doc(db, "customers", id), {
-          stamps: newStamps,
-          rewardReady: isReady,
-          couponCode: coupon || undefined
-        });
+        await updateDoc(doc(db, "customers", id), updateData);
         showMsg('Stamp added successfully!');
         loadDashboardData();
       } catch (e) {
         showMsg('Failed: ' + e.message, true);
+      }
+    };
+
+    window.resetStamps = async (id) => {
+      if (!confirm('Kya aap waqai is customer ke stamps 0 karna chahte hain?')) return;
+      try {
+        await updateDoc(doc(db, "customers", id), {
+          stamps: 0,
+          rewardReady: false,
+          rewardIssued: false,
+          isScratched: false,
+          couponCode: ""
+        });
+        showMsg('Stamps reset to 0 successfully!');
+        loadDashboardData();
+      } catch (e) {
+        showMsg('Failed to reset: ' + e.message, true);
       }
     };
 
