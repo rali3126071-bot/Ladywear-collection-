@@ -7,81 +7,175 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0F0A0C;
-      --card-bg: #1A1216;
+      --bg: #FFF9FA;
+      --plum: #3B0B17;
+      --berry: #7A1C38;
+      --rose: #E8C5CE;
       --gold: #D4AF37;
-      --text: #F7F4F0;
-      --text-muted: #B3A4A8;
-      --border: #3A2A30;
+      --card-bg: #FFFFFF;
+      --text: #2C1820;
+      --text-muted: #6B515B;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; }
-    .header { text-align: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-    .header h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 20px; }
-    .card { background: var(--card-bg); padding: 18px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); margin-bottom: 16px; border: 1px solid var(--border); }
-    .form-group { margin-bottom: 12px; }
-    label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 5px; color: var(--gold); text-transform: uppercase; }
-    input, select { width: 100%; padding: 10px 12px; background: #120C0F; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; color: var(--text); outline: none; }
-    .btn { width: 100%; background: linear-gradient(135deg, #D4AF37, #AA7C11); color: #0F0A0C; border: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; text-transform: uppercase; }
-    .btn-wa { background: #25D366; color: #FFF; }
-    .btn-secondary { background: #3A2A30; color: var(--text); margin-top: 6px; }
-    .hidden { display: none !important; }
-    .member-item { background: #120C0F; padding: 14px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border); }
-    .member-info h4 { color: var(--gold); font-size: 15px; }
-    .member-info p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .stamp-badge { display: inline-block; background: #2C1E25; color: var(--gold); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; margin-top: 6px; border: 1px solid var(--border); }
-    .action-row { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+    body { background-color: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .container { width: 100%; max-width: 420px; margin: 0 auto; padding-bottom: 40px; }
+
+    /* Top Header */
+    .top-header { text-align: center; margin-bottom: 20px; padding: 10px 0; border-bottom: 1px solid var(--rose); }
+    .top-header h1 { font-family: 'Cinzel', serif; color: var(--plum); font-size: 20px; }
+    .top-header p { font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
+
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--rose); padding: 14px 8px; border-radius: 14px; text-align: center; box-shadow: 0 4px 15px rgba(59,11,23,0.04); }
+    .stat-num { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700; color: var(--plum); }
+    .stat-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Admin Action Tabs */
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
+    .admin-tab-btn { background: #FAF2F4; border: 1px solid var(--rose); color: var(--plum); padding: 10px 14px; border-radius: 12px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .admin-tab-btn.active { background: var(--plum); color: #FFF; border-color: var(--plum); }
+
+    /* Card Box */
+    .card { background: var(--card-bg); padding: 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(59, 11, 23, 0.06); border: 1px solid var(--rose); margin-bottom: 20px; }
+    .card-title { font-family: 'Cinzel', serif; color: var(--plum); font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+
+    .form-group { margin-bottom: 14px; text-align: left; }
+    label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 5px; color: var(--plum); text-transform: uppercase; }
+    input, select { width: 100%; padding: 12px; border: 1px solid var(--rose); border-radius: 10px; font-size: 14px; outline: none; background: #FAF2F4; color: var(--text); }
+    
+    .btn-primary { width: 100%; background: var(--plum); color: #FFF; border: none; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase; }
+    .btn-secondary { background: #FAF2F4; color: var(--plum); border: 1px solid var(--rose); margin-top: 8px; }
+
+    .member-item { background: #FAF2F4; padding: 14px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--rose); }
+    .member-item h4 { font-family: 'Cinzel', serif; color: var(--plum); font-size: 14px; }
+    .member-item p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    
+    .badge { display: inline-block; background: #E8C5CE; color: var(--plum); padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-top: 6px; margin-right: 4px; }
+
     .alert { padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 12px; text-align: center; }
-    .alert-error { background: #3B0B17; color: #FF8A80; }
-    .alert-success { background: #064E3B; color: #6EE7B7; }
+    .alert-error { background: #FFEBEE; color: #C62828; }
+    .alert-success { background: #E8F5E9; color: #2E7D32; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1>Staff Portal</h1>
-    <p style="font-size: 10px; color: var(--text-muted); letter-spacing: 2px;">Lady Wear Collection</p>
-  </div>
-
-  <div id="msgBox" class="alert hidden"></div>
-
-  <div id="loginSec" class="card">
-    <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--gold);">Admin Login</h2>
-    <div class="form-group"><label>Email</label><input type="email" id="adminEmail" placeholder="admin@ladywear.com"></div>
-    <div class="form-group"><label>Password</label><input type="password" id="adminPass" placeholder="••••••••"></div>
-    <button id="loginBtn" class="btn">Login</button>
-  </div>
-
-  <div id="dashSec" class="hidden">
-    <!-- Coupon Verification Box -->
-    <div class="card" style="border-color: var(--gold);">
-      <h3 style="font-size: 14px; color: var(--gold); margin-bottom: 10px;">🎟️ Verify & Claim Coupon Code</h3>
-      <div style="display: flex; gap: 8px;">
-        <input type="text" id="couponVerifyInp" placeholder="Enter Coupon Code (e.g. LWC-9A82)" style="text-transform:uppercase;">
-        <button id="verifyCouponBtn" class="btn" style="width: auto; padding: 10px 16px;">Verify</button>
-      </div>
+  <div class="container">
+    <div class="top-header">
+      <h1>Staff Portal</h1>
+      <p>Lady Wear Collection</p>
     </div>
 
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3 style="font-size: 14px; color: var(--gold);">Customer Search</h3>
-        <button id="logoutBtn" style="background: none; border: none; color: #FF8A80; font-size: 11px; font-weight: 600; cursor: pointer;">Logout</button>
+    <div id="msgBox" class="alert hidden"></div>
+
+    <!-- Login Section -->
+    <div id="loginSec" class="card">
+      <div class="card-title">Admin Login</div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="adminEmail" placeholder="admin@ladywear.com">
       </div>
-      <div class="form-group"><input type="text" id="searchInp" placeholder="Search by name or mobile..."></div>
-      <button id="exportBtn" class="btn btn-secondary" style="font-size: 12px; padding: 10px;">📥 Export Customers CSV</button>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="adminPass" placeholder="••••••••">
+      </div>
+      <button id="loginBtn" class="btn-primary">Login to Portal</button>
     </div>
 
-    <div class="card">
-      <h3 style="font-size: 14px; margin-bottom: 10px; color: var(--gold);">Members List</h3>
-      <div id="membersList">Loading...</div>
+    <!-- Dashboard Section -->
+    <div id="dashSec" class="hidden">
+      <!-- Stats Overview -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="statMembers">0</div>
+          <div class="stat-label">Members</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statStamps">0</div>
+          <div class="stat-label">Stamps issued</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statCoupons">0</div>
+          <div class="stat-label">Coupons created</div>
+        </div>
+      </div>
+
+      <!-- Action Sub-tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" id="subTabCard">Issue scratch card</button>
+        <button class="admin-tab-btn" id="subTabVerify">Verify coupon</button>
+        <button class="admin-tab-btn" id="subTabMembers">All members</button>
+      </div>
+
+      <!-- Issue Scratch Card Panel -->
+      <div class="card" id="panelCard">
+        <div class="card-title">Issue Custom Scratch Card</div>
+        <div class="form-group">
+          <label>Member Mobile Number</label>
+          <input type="tel" id="issuePhone" placeholder="10-digit mobile" maxlength="10">
+        </div>
+        <div class="form-group">
+          <label>Scratch Card Reward</label>
+          <select id="issueReward">
+            <option value="5% off">5% off</option>
+            <option value="10% off">10% off</option>
+            <option value="₹50 off">₹50 off</option>
+            <option value="₹100 off">₹100 off</option>
+            <option value="Free gift" selected>Free gift</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Minimum Purchase (₹)</label>
+          <input type="number" id="issueMinSpend" value="500">
+        </div>
+        <div class="form-group">
+          <label>Expiry (days)</label>
+          <input type="number" id="issueExpiryDays" value="30">
+        </div>
+        <button id="createCardBtn" class="btn-primary">Create scratch card</button>
+      </div>
+
+      <!-- Verify Coupon Panel -->
+      <div class="card hidden" id="panelVerify">
+        <div class="card-title">Verify & Redeem Coupon</div>
+        <div class="form-group">
+          <label>Enter Coupon Code</label>
+          <input type="text" id="verifyCodeInp" placeholder="e.g. LW-19LFMTEP" style="text-transform:uppercase;">
+        </div>
+        <button id="verifyCodeBtn" class="btn-primary">Verify & Use Coupon</button>
+      </div>
+
+      <!-- Members List Panel -->
+      <div class="card hidden" id="panelMembers">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div class="card-title" style="margin-bottom:0;">Members Directory</div>
+          <button id="logoutBtn" style="background:none; border:none; color:#C62828; font-weight:700; font-size:11px; cursor:pointer;">LOGOUT</button>
+        </div>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <input type="text" id="searchInp" placeholder="Search name or mobile...">
+        </div>
+        <div id="membersListContainer">Loading members...</div>
+        <button id="exportCsvBtn" class="btn-primary btn-secondary" style="margin-top: 15px;">📥 Export Customers CSV</button>
+      </div>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { firebaseConfig } from "./firebase-config.js";
+    import { getFirestore, collection, getDocs, doc, setDoc, updateDb, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXskxp0w8tAljV-6mCz-FN5sCuJagFpN4",
+      authDomain: "ladywear-collection-c9284.firebaseapp.com",
+      databaseURL: "https://ladywear-collection-c9284-default-rtdb.firebaseio.com",
+      projectId: "ladywear-collection-c9284",
+      storageBucket: "ladywear-collection-c9284.firebasestorage.app",
+      messagingSenderId: "276056105346",
+      appId: "1:276056105346:web:e54c9912b066032691ef9b",
+      measurementId: "G-Z863Y8GPSV"
+    };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -101,7 +195,7 @@
       if (user) {
         document.getElementById('loginSec').classList.add('hidden');
         document.getElementById('dashSec').classList.remove('hidden');
-        loadMembers();
+        loadDashboardData();
       } else {
         document.getElementById('loginSec').classList.remove('hidden');
         document.getElementById('dashSec').classList.add('hidden');
@@ -122,48 +216,71 @@
 
     document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
 
-    async function loadMembers() {
+    // Sub-tabs switching
+    const subTabCard = document.getElementById('subTabCard');
+    const subTabVerify = document.getElementById('subTabVerify');
+    const subTabMembers = document.getElementById('subTabMembers');
+
+    const panelCard = document.getElementById('panelCard');
+    const panelVerify = document.getElementById('panelVerify');
+    const panelMembers = document.getElementById('panelMembers');
+
+    subTabCard.addEventListener('click', () => {
+      panelCard.classList.remove('hidden'); panelVerify.classList.add('hidden'); panelMembers.classList.add('hidden');
+      subTabCard.classList.add('active'); subTabVerify.classList.remove('active'); subTabMembers.classList.remove('active');
+    });
+    subTabVerify.addEventListener('click', () => {
+      panelVerify.classList.remove('hidden'); panelCard.classList.add('hidden'); panelMembers.classList.add('hidden');
+      subTabVerify.classList.add('active'); subTabCard.classList.remove('active'); subTabMembers.classList.remove('active');
+    });
+    subTabMembers.addEventListener('click', () => {
+      panelMembers.classList.remove('hidden'); panelCard.classList.add('hidden'); panelVerify.classList.add('hidden');
+      subTabMembers.classList.add('active'); subTabCard.classList.remove('active'); subTabVerify.classList.remove('active');
+    });
+
+    async function loadDashboardData() {
       try {
-        const querySnapshot = await getDocs(collection(db, "customers"));
+        const snap = await getDocs(collection(db, "customers"));
         allMembers = [];
-        querySnapshot.forEach((doc) => {
-          allMembers.push({ id: doc.id, ...doc.data() });
+        let totalStamps = 0;
+        let totalCoupons = 0;
+
+        snap.forEach(d => {
+          const m = { id: d.id, ...d.data() };
+          allMembers.push(m);
+          totalStamps += (m.stamps || 0);
+          if (m.couponCode) totalCoupons++;
         });
-        renderMembers(allMembers);
+
+        document.getElementById('statMembers').textContent = allMembers.length;
+        document.getElementById('statStamps').textContent = totalStamps;
+        document.getElementById('statCoupons').textContent = totalCoupons;
+
+        renderMembersList(allMembers);
       } catch (e) {
-        showMsg('Error: ' + e.message, true);
+        showMsg('Failed to load data: ' + e.message, true);
       }
     }
 
-    function renderMembers(list) {
-      const container = document.getElementById('membersList');
+    function renderMembersList(list) {
+      const container = document.getElementById('membersListContainer');
       if (list.length === 0) {
-        container.innerHTML = '<p style="font-size: 12px; color: var(--text-muted);">No records found.</p>';
+        container.innerHTML = '<p style="font-size:12px; color:var(--text-muted); text-align:center;">No members found.</p>';
         return;
       }
       container.innerHTML = list.map(m => `
         <div class="member-item">
-          <div class="member-info">
-            <h4>${m.name || 'Unnamed'}</h4>
-            <p>📱 ${m.phone || 'No phone'}</p>
-            <span class="stamp-badge">Stamps: ${m.stamps || 0} / 5</span>
-            <span class="stamp-badge">Reward: ${m.rewardType || 'Get 10% off'}</span>
-            ${m.couponCode ? `<span class="stamp-badge" style="color:#FFF;">Code: ${m.couponCode}</span>` : ''}
-            ${m.rewardReady && !m.rewardIssued ? '<span class="stamp-badge" style="background:#D4AF37; color:#0F0A0C;">🎁 Ready</span>' : ''}
-            ${m.rewardIssued ? '<span class="stamp-badge" style="background:#064E3B; color:#6EE7B7;">✓ Claimed</span>' : ''}
+          <h4>${m.name || 'Unnamed'}</h4>
+          <p>📱 ${m.phone || 'No phone'}</p>
+          <div>
+            <span class="badge">Stamps: ${m.stamps || 0}/5</span>
+            <span class="badge">${m.rewardType || 'No reward'}</span>
+            ${m.couponCode ? `<span class="badge" style="background:var(--plum); color:#FFF;">${m.couponCode}</span>` : ''}
+            ${m.rewardIssued ? '<span class="badge" style="background:#2E7D32; color:#FFF;">Claimed</span>' : ''}
           </div>
-          <div class="action-row">
-            <div style="display: flex; gap: 6px;">
-              <select id="reward-sel-${m.id}" style="flex:1; padding:6px; font-size:11px;">
-                <option value="Get 10% off" ${m.rewardType === 'Get 10% off' ? 'selected' : ''}>Get 10% off</option>
-                <option value="Get 15% off" ${m.rewardType === 'Get 15% off' ? 'selected' : ''}>Get 15% off</option>
-                <option value="Get ₹100 off" ${m.rewardType === 'Get ₹100 off' ? 'selected' : ''}>Get ₹100 off</option>
-                <option value="Free Gift Item" ${m.rewardType === 'Free Gift Item' ? 'selected' : ''}>Free Gift Item</option>
-              </select>
-              <button class="btn" style="flex:1; padding:6px; font-size:11px;" onclick="addStamp('${m.id}', ${m.stamps || 0}, '${m.name || 'Customer'}')">+1 Stamp</button>
-            </div>
-            <button class="btn btn-wa" style="font-size:11px; padding:6px;" onclick="sendWhatsApp('${m.phone}', '${m.name}', ${m.stamps || 0}, '${m.rewardType || 'Offer'}', ${m.rewardReady || false})">📲 Notify on WhatsApp</button>
-            ${m.rewardReady && !m.rewardIssued ? `<button class="btn" style="background:#064E3B; color:#6EE7B7; font-size:11px; padding:6px;" onclick="claimReward('${m.id}')">Mark Reward Claimed</button>` : ''}
+          <div style="margin-top:8px; display:flex; gap:6px;">
+            <button class="btn-primary" style="padding:6px; font-size:10px;" onclick="addStamp('${m.id}', ${m.stamps || 0})">+1 Stamp</button>
+            <button class="btn-primary btn-secondary" style="padding:6px; font-size:10px; margin-top:0;" onclick="sendWhatsApp('${m.phone}', '${m.name}', ${m.stamps || 0})">WhatsApp</button>
           </div>
         </div>
       `).join('');
@@ -171,90 +288,110 @@
 
     document.getElementById('searchInp').addEventListener('input', (e) => {
       const term = e.target.value.toLowerCase();
-      const filtered = allMembers.filter(m => 
-        (m.name && m.name.toLowerCase().includes(term)) || 
-        (m.phone && m.phone.includes(term))
-      );
-      renderMembers(filtered);
+      const filtered = allMembers.filter(m => (m.name && m.name.toLowerCase().includes(term)) || (m.phone && m.phone.includes(term)));
+      renderMembersList(filtered);
     });
 
-    window.addStamp = async (id, currentStamps, name) => {
-      if (currentStamps >= 5) return showMsg('Already at 5 stamps!', true);
-      const newCount = currentStamps + 1;
-      const isReady = newCount === 5;
-      const selectedReward = document.getElementById(`reward-sel-${id}`).value;
-      
-      // Unique Coupon Code generate karo
-      const generatedCode = isReady ? 'LWC-' + Math.random().toString(36).substring(2, 6).toUpperCase() : '';
+    // Create Custom Scratch Card
+    document.getElementById('createCardBtn').addEventListener('click', async () => {
+      const phone = document.getElementById('issuePhone').value.trim();
+      const reward = document.getElementById('issueReward').value;
+      const minSpend = document.getElementById('issueMinSpend').value;
+      const expiryDays = document.getElementById('issueExpiryDays').value;
+
+      if (phone.length !== 10) return showMsg('Enter valid 10-digit mobile number', true);
 
       try {
-        const updateData = {
-          stamps: newCount,
-          rewardReady: isReady,
-          rewardType: selectedReward,
-          isScratched: false
-        };
-        if (isReady) updateData.couponCode = generatedCode;
+        const ref = doc(db, "customers", phone);
+        const snap = await getDoc(ref);
+        const coupon = 'LW-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-        await updateDoc(doc(db, "customers", id), updateData);
-        showMsg(`Stamp added for ${name}!`);
-        loadMembers();
+        if (snap.exists()) {
+          await updateDoc(ref, {
+            rewardReady: true,
+            rewardType: reward,
+            couponCode: coupon,
+            minSpend: minSpend,
+            expiryDays: expiryDays,
+            isScratched: false,
+            rewardIssued: false
+          });
+        } else {
+          await setDoc(ref, {
+            name: 'Customer',
+            phone: phone,
+            pin: '1234',
+            stamps: 5,
+            rewardReady: true,
+            rewardType: reward,
+            couponCode: coupon,
+            minSpend: minSpend,
+            expiryDays: expiryDays,
+            isScratched: false,
+            rewardIssued: false
+          });
+        }
+        showMsg('✅ Scratch card issued successfully!');
+        document.getElementById('issuePhone').value = '';
+        loadDashboardData();
+      } catch (e) {
+        showMsg('Error issuing card: ' + e.message, true);
+      }
+    });
+
+    // Verify Coupon
+    document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
+      const code = document.getElementById('verifyCodeInp').value.trim().toUpperCase();
+      if (!code) return showMsg('Enter coupon code', true);
+
+      const member = allMembers.find(m => m.couponCode === code);
+      if (!member) return showMsg('❌ Invalid Coupon Code!', true);
+      if (member.rewardIssued) return showMsg('⚠️ Coupon already redeemed!', true);
+
+      try {
+        await updateDoc(doc(db, "customers", member.id), { rewardIssued: true });
+        showMsg(`✅ Success! Coupon verified for ${member.name || member.phone} (${member.rewardType}).`);
+        document.getElementById('verifyCodeInp').value = '';
+        loadDashboardData();
+      } catch (e) {
+        showMsg('Verification failed: ' + e.message, true);
+      }
+    });
+
+    window.addStamp = async (id, currentStamps) => {
+      if (currentStamps >= 5) return showMsg('Already at max stamps!', true);
+      const newStamps = currentStamps + 1;
+      const isReady = newStamps >= 5;
+      const coupon = isReady ? 'LW-' + Math.random().toString(36).substring(2, 10).toUpperCase() : '';
+      try {
+        await updateDoc(doc(db, "customers", id), {
+          stamps: newStamps,
+          rewardReady: isReady,
+          couponCode: coupon || undefined
+        });
+        showMsg('Stamp added successfully!');
+        loadDashboardData();
       } catch (e) {
         showMsg('Failed: ' + e.message, true);
       }
     };
 
-    window.sendWhatsApp = (phone, name, stamps, reward, isReady) => {
-      let msg = '';
-      if (isReady || stamps >= 5) {
-        msg = `Hello ${name}! 🥳\nCongratulations! Aapke Lady Wear Collection VIP Club me 5 stamps poore ho gaye hain.\n\n🎁 Reward: ${reward}\n\nApna scratch card dekhne ke liye website kholein:\nhttps://rali3126071-bot.github.io/Ladywear-collection-/`;
-      } else {
-        const rem = 5 - stamps;
-        msg = `Hello ${name}! 🎉\nLady Wear Collection me aapka naya stamp add ho gaya hai!\n\n📌 Total Stamps: ${stamps}/5\n⏳ Reward ke liye ${rem} stamp baaki hain.\n\nCard dekhein:\nhttps://rali3126071-bot.github.io/Ladywear-collection-/`;
-      }
+    window.sendWhatsApp = (phone, name, stamps) => {
+      const msg = `Hello ${name || 'Customer'}! 🎉\nYour Lady Wear Collection loyalty card has been updated. Total stamps: ${stamps}/5.\nCheck your rewards here: https://rali3126071-bot.github.io/Ladywear-collection-/`;
       window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
-    // Coupon Verification System
-    document.getElementById('verifyCouponBtn').addEventListener('click', async () => {
-      const code = document.getElementById('couponVerifyInp').value.trim().toUpperCase();
-      if (!code) return showMsg('Please enter a Coupon Code', true);
-
-      const customer = allMembers.find(m => m.couponCode === code);
-      if (!customer) return showMsg('❌ Invalid Coupon Code!', true);
-      if (customer.rewardIssued) return showMsg('⚠️ This Coupon Code has ALREADY been used!', true);
-
-      try {
-        await updateDoc(doc(db, "customers", customer.id), { rewardIssued: true });
-        showMsg(`✅ SUCCESS! Verified coupon for ${customer.name}. Reward (${customer.rewardType}) marked as USED.`);
-        document.getElementById('couponVerifyInp').value = '';
-        loadMembers();
-      } catch (e) {
-        showMsg('Failed to verify: ' + e.message, true);
-      }
-    });
-
-    window.claimReward = async (id) => {
-      try {
-        await updateDoc(doc(db, "customers", id), { rewardIssued: true });
-        showMsg('Reward marked as claimed!');
-        loadMembers();
-      } catch (e) {
-        showMsg('Failed: ' + e.message, true);
-      }
-    };
-
-    document.getElementById('exportBtn').addEventListener('click', () => {
-      if (!allMembers.length) return showMsg('No data', true);
-      let csv = 'Name,Phone,Stamps,Reward Type,Coupon Code,Reward Ready,Reward Issued\n';
+    document.getElementById('exportCsvBtn').addEventListener('click', () => {
+      if (!allMembers.length) return showMsg('No data to export', true);
+      let csv = 'Name,Phone,Stamps,Reward,Coupon,Claimed\n';
       allMembers.forEach(m => {
-        csv += `"${m.name || ''}","${m.phone || ''}",${m.stamps || 0},"${m.rewardType || ''}","${m.couponCode || ''}",${m.rewardReady ? 'Yes' : 'No'},${m.rewardIssued ? 'Yes' : 'No'}\n`;
+        csv += `"${m.name || ''}","${m.phone || ''}",${m.stamps || 0},"${m.rewardType || ''}","${m.couponCode || ''}",${m.rewardIssued ? 'Yes' : 'No'}\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.setAttribute('href', url);
-      a.setAttribute('download', 'lady_wear_vip_customers.csv');
+      a.href = url;
+      a.download = 'lady_wear_customers.csv';
       a.click();
     });
   </script>
