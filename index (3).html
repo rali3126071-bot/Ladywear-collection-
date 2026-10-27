@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ladywear Collection — Billing & Accounts</title>
+<style>
+:root{--bg:#171a19;--card:#222725;--ink:#f0f2ee;--muted:#a4aca5;--line:#3b443e;--soft:#2a302c;--accent:#0e1712;--accent2:#35483b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+header{background:#17251f;color:#fff;padding:20px max(18px,calc((100vw - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header h1{font-size:21px;letter-spacing:.8px;margin:0}header small{color:#d7e1d9}
+main{max-width:1120px;margin:20px auto;padding:0 14px 42px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;background:#252b27;padding:6px;border-radius:14px}
+button,.button{border:1px solid var(--accent);background:var(--accent);color:#fff;padding:11px 15px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px}
+button.secondary,.button.secondary{background:#252b27;color:#edf1ec;border-color:#465149}.tab{background:transparent!important;color:#555!important;border-color:transparent!important}.tab.active{background:#222725df9!important;color:var(--accent)!important;box-shadow:0 2px 7px #0000000b}.panel{display:none}.panel.active{display:block}
+.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(290px,1fr);gap:15px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:15px;box-shadow:0 3px 12px #302a1a06}
+h2{font-size:17px;margin:0 0 14px}h3{font-size:14px;margin:0 0 10px}
+label{display:block;font-size:12px;font-weight:750;color:#c0c8c0;margin:0 0 5px}
+input,select,textarea{width:100%;border:1px solid #d8d4ca;border-radius:10px;padding:11px;background:#171c19;color:#f0f2ee;font:inherit;min-width:0}
+input:focus,select:focus{outline:2px solid #8da594;outline-offset:1px}.row{display:flex;gap:9px;align-items:end}.row>*{flex:1}.field{margin-bottom:12px}
+.suggestions{border:1px solid #d8d4ca;border-radius:10px;overflow:auto;max-height:190px;margin-top:5px;background:#222725}
+.suggestion{padding:10px 12px;cursor:pointer;border-bottom:1px solid #343c37;display:flex;justify-content:space-between;gap:10px}.suggestion:last-child{border:0}.suggestion:hover{background:#29382e}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 6px;border-bottom:1px solid #343c37;vertical-align:middle}th{font-size:11px;text-transform:uppercase;color:#a4aca5}
+td input{padding:8px 6px;min-width:54px}.qty{width:60px}.price{width:88px}.remove{padding:6px 9px;background:#222725;color:#333;border-color:#ddd}
+.summary{display:grid;gap:11px}.sumline{display:flex;justify-content:space-between;gap:12px}.grand{font-size:22px;font-weight:850;border-top:1px solid var(--line);padding-top:13px;color:var(--accent)}.discount{color:#28724b;font-weight:800}.muted{color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{flex:1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}.stat span{display:block;color:#a4aca5;font-size:12px}.stat strong{display:block;font-size:20px;margin-top:4px;overflow-wrap:anywhere}
+.billrow,.customerrow{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #343c37;padding:13px 0}.billrow:last-child,.customerrow:last-child{border:0}.billmeta{min-width:0}.billmeta strong{display:block}.billmeta small{color:#a4aca5}.pill{border:1px solid #d7d2c8;border-radius:20px;padding:3px 8px;font-size:11px;white-space:nowrap}
+.empty{text-align:center;color:#a4aca5;padding:24px 8px}.note{background:#29382e;border-radius:10px;padding:11px;font-size:12px;color:#455449}
+.customer-profile{background:#26332b;border:1px solid #3b4c40;padding:16px;border-radius:13px;margin-top:12px}.profile-stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #3b4c40}.profile-stat:last-child{border:0}
+@media print{header,.tabs,.no-print,#productsPanel,#historyPanel,#customersPanel,#billingPanel{display:none!important}body{background:#222725}#pdfReceipt{display:block!important;color:#111;font-family:Arial,sans-serif;padding:24px;max-width:760px;margin:auto}#pdfReceipt h1{text-align:center;font-size:24px;letter-spacing:2px}#pdfReceipt table{width:100%;border-collapse:collapse;margin-top:18px}#pdfReceipt th,#pdfReceipt td{border-bottom:1px solid #ccc;padding:8px;text-align:left}#pdfReceipt .r{text-align:right}#pdfReceipt .total{font-size:20px;font-weight:bold}}
+#billModal table{font-size:13px}#billModal h1{font-size:21px;letter-spacing:1.5px}#billModal .total{font-size:20px;font-weight:800}@media(max-width:760px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.card{padding:14px}header{padding:16px}.row{gap:7px}table{font-size:12px}th,td{padding:8px 3px}}@media(max-width:430px){.row{flex-wrap:wrap}.row>*{flex:1 1 42%}.tabs{gap:3px}.tab{padding:9px 10px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<div id="authGate" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#111713">
+  <div style="width:min(100%,420px);background:#222725;border:1px solid #3b443e;border-radius:20px;padding:24px;color:#f0f2ee">
+    <div style="font-size:12px;letter-spacing:3px;color:#d9b76d;font-weight:800">LADYWEAR COLLECTION</div>
+    <h1 style="margin:8px 0 4px;font-size:25px">Billing System Login</h1>
+    <p style="color:#a4aca5;font-size:13px;margin:0 0 20px">Sign in to access your shop data across devices.</p>
+    <form id="loginForm">
+      <div style="margin-bottom:12px"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="username" required placeholder="Shop login email"></div>
+      <div style="margin-bottom:14px"><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Password"></div>
+      <button id="loginButton" type="submit" style="width:100%">Login</button>
+      <p id="authMessage" role="status" style="font-size:13px;color:#e5c77d;margin:12px 0 0"></p>
+    </form>
+    <p style="font-size:11px;color:#a4aca5;margin:18px 0 0">Accounts must be created by the shop owner in Firebase Console. There is no public sign-up on this screen.</p>
+  </div>
+</div>
+
+<div id="appShell" style="display:none">
+<header><div><h1>LADYWEAR COLLECTION</h1><small>Billing • Sales • Expenses • Staff Salary</small></div><div id="todayLabel"></div></header>
+<main>
+<div id="pdfReceipt" style="display:none"></div>
+<div class="tabs no-print">
+<button class="tab active" data-tab="billingPanel">New Bill</button>
+<button class="tab secondary" data-tab="billSearchPanel">Find Bill</button>
+<button class="tab secondary" data-tab="productsPanel">Products</button>
+<button class="tab secondary" data-tab="customersPanel">Customers</button>
+<button class="tab secondary" data-tab="historyPanel">Sales & Bills</button>
+<button class="tab secondary" data-tab="analyticsPanel">Sales History</button>
+<button class="tab secondary" data-tab="salaryPanel">Staff Salary</button>
+</div>
+
+<section id="billingPanel" class="panel active">
+<div class="grid">
+<div>
+<div class="card no-print">
+<h2>Customer & Products</h2>
+<div class="row">
+<div class="field"><label>Customer name (optional)</label><input id="customerName" placeholder="Customer name"></div>
+<div class="field"><label>WhatsApp number</label><input id="customerPhone" inputmode="tel" placeholder="e.g. 919876543210"></div>
+</div>
+<div class="field"><label>Search product (type first letter/name)</label><input id="productSearch" autocomplete="off" placeholder="Type C, bra, panty..."><div id="suggestions" class="suggestions" hidden></div></div>
+<div class="row">
+<div class="field"><label>Or add a custom item</label><input id="customName" placeholder="Item name"></div>
+<div class="field"><label>Price (₹)</label><input id="customPrice" type="number" min="0" step=".01" placeholder="0"></div>
+<div class="field"><label>Qty</label><input id="customQty" type="number" min="1" step="1" value="1"></div>
+<button id="addCustom" type="button">Add</button>
+</div>
+</div>
+<div class="card">
+<h2>Bill items</h2>
+<div id="cartWrap"><div class="empty">Search a saved product above or add a custom item.</div></div>
+</div>
+</div>
+<div>
+<div class="card">
+<h2>Payment & Total</h2>
+<div class="summary">
+<div class="sumline"><span>Subtotal</span><strong id="subtotal">₹0.00</strong></div>
+<div class="field"><label>Final total (editable — bargaining)</label><input id="finalTotal" type="number" min="0" step=".01" value="0"></div>
+<div class="sumline discount"><span>Discount</span><strong id="discount">₹0.00</strong></div>
+<div class="sumline grand"><span>Payable</span><strong id="payable">₹0.00</strong></div>
+<div class="field"><label>Payment method</label><select id="paymentMethod"><option value="Cash">Cash</option><option value="Online">Online / UPI</option><option value="Card">Card</option><option value="Split">Split payment</option></select></div>
+<div id="splitFields" hidden>
+<div class="row"><div class="field"><label>Cash ₹</label><input id="splitCash" type="number" min="0" value="0"></div><div class="field"><label>Online ₹</label><input id="splitOnline" type="number" min="0" value="0"></div></div>
+<div class="field"><label>Card ₹</label><input id="splitCard" type="number" min="0" value="0"></div>
+<p class="muted" id="splitStatus"></p>
+</div>
+<div class="field"><label>Bill note (optional)</label><input id="billNote" placeholder="Thank you for shopping!"></div>
+<div class="actions no-print"><button id="saveBill">Save Bill</button><button id="whatsappBill" class="secondary">WhatsApp Bill</button></div>
+<div class="actions no-print"><button id="pdfBill" class="secondary">Download PDF</button><button id="printBill" class="secondary">Print Bill</button><button id="newBill" class="secondary">Clear / New</button></div>
+<p class="muted">Cloud sync: signed-in devices share data. Keep regular exported backups too.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="billSearchPanel" class="panel">
+ <div class="card">
+  <h2>Find a bill</h2>
+  <p class="muted">Search using the exact bill number, for example BW-46094382, or search by customer mobile number.</p>
+  <div class="row">
+   <div class="field"><label>Bill number or customer mobile</label><input id="billSearchInput" placeholder="BW-46094382" autocomplete="off"></div>
+   <button id="searchBillBtn">Search bill</button>
+  </div>
+  <div id="billSearchResults"></div>
+ </div>
+</section>
+
+<section id="productsPanel" class="panel">
+<div class="card">
+<h2>Product catalogue</h2>
+<div class="row">
+<div class="field"><label>Product name</label><input id="productName" placeholder="e.g. Cotton Bra"></div>
+<div class="field"><label>Default price ₹</label><input id="productPrice" type="number" min="0" step=".01" placeholder="e.g. 300"></div>
+<button id="saveProduct">Add product</button>
+</div>
+<p class="muted">You can still change the price separately for each bill, useful for bargaining.</p>
+<div id="productList"></div>
+</div>
+</section>
+
+<section id="salaryPanel" class="panel">
+ <div class="stats">
+  <div class="stat"><span>This month's salary paid</span><strong id="salaryMonthPaid">₹0</strong></div>
+  <div class="stat"><span>Payments recorded</span><strong id="salaryPaymentCount">0</strong></div>
+  <div class="stat"><span>Staff members</span><strong id="staffCount">4</strong></div>
+  <div class="stat"><span>Salary expense this month</span><strong id="salaryExpenseTotal">₹0</strong></div>
+ </div>
+ <div class="card">
+  <h2>Pay staff salary</h2>
+  <p class="muted">Choose a staff member, enter the amount and payment date, then save the payment record. It will also be counted under store expenses.</p>
+  <div class="row">
+   <div class="field"><label>Staff member</label><select id="salaryStaff"><option>Faisal</option><option>Junaid bhai</option><option>Chachu</option><option>Ayan king 👑</option></select></div>
+   <div class="field"><label>Salary amount ₹</label><input id="salaryAmount" type="number" min="0.01" step=".01" placeholder="Enter amount"></div>
+  </div>
+  <div class="row">
+   <div class="field"><label>Payment date</label><input id="salaryDate" type="date"></div>
+   <div class="field"><label>Paid via</label><select id="salaryMethod"><option>Cash</option><option>Online / UPI</option><option>Card</option></select></div>
+   <div class="field"><label>Note (optional)</label><input id="salaryNote" placeholder="e.g. October salary / advance"></div>
+   <button id="recordSalary">Save salary payment</button>
+  </div>
+ </div>
+ <div class="card">
+  <h2>Salary payment history</h2>
+  <div class="row">
+   <div class="field"><label>Filter month</label><input id="salaryMonthFilter" type="month"></div>
+   <div class="field"><label>Staff member</label><select id="salaryStaffFilter"><option value="">All staff</option><option>Faisal</option><option>Junaid bhai</option><option>Chachu</option><option>Ayan king 👑</option></select></div>
+   <button id="filterSalary" class="secondary">Apply filter</button>
+  </div>
+  <div id="salaryHistory"></div>
+ </div>
+</section>
+
+<section id="analyticsPanel" class="panel">
+<div class="stats">
+ <div class="stat"><span>Selected period sales</span><strong id="periodSales">₹0</strong></div>
+ <div class="stat"><span>Bills count</span><strong id="periodBills">0</strong></div>
+ <div class="stat"><span>Discount given</span><strong id="periodDiscount">₹0</strong></div>
+ <div class="stat"><span>Store expenses (debit)</span><strong id="periodDue">₹0</strong></div><div class="stat"><span>Sales minus expenses</span><strong id="periodNet">₹0</strong></div>
+</div>
+<div class="card">
+ <h2>Sales history</h2>
+ <p class="muted">Choose a month or exact date to see products sold, collection and store expenses.</p>
+ <div class="row">
+  <div class="field"><label>Month</label><input type="month" id="historyMonth"></div>
+  <div class="field"><label>Exact date (optional)</label><input type="date" id="historyDate"></div>
+  <button id="refreshAnalytics" class="secondary">Show history</button>
+ </div>
+ <div id="historyBreakdown"></div>
+</div>
+<div class="card">
+ <h2>Store expenses (Debit)</h2>
+ <p class="muted">Record money spent by the shop: rent, stock purchase, bags, electricity, delivery, repairs and other expenses. Expenses are separate from sales.</p>
+ <div class="row">
+  <div class="field"><label>Expense category</label><select id="expenseCategory"><option>Stock purchase</option><option>Rent</option><option>Electricity</option><option>Packaging / bags</option><option>Delivery / transport</option><option>Staff wages</option><option>Repairs</option><option>Other</option></select></div>
+  <div class="field"><label>Amount ₹</label><input id="expenseAmount" type="number" min="0.01" step=".01" placeholder="Expense amount"></div>
+ </div>
+ <div class="row">
+  <div class="field"><label>Date</label><input id="expenseDate" type="date"></div>
+  <div class="field"><label>Paid by</label><select id="expenseMethod"><option>Cash</option><option>Online / UPI</option><option>Card</option></select></div>
+  <div class="field"><label>Note / supplier</label><input id="expenseNote" placeholder="e.g. shopping bags"></div>
+  <button id="addExpense">Add expense</button>
+ </div>
+ <div id="expenseHistory"></div>
+</div>
+</section>
+
+<section id="customersPanel" class="panel">
+<div class="card">
+<h2>Customer book</h2>
+<p class="muted">Customer number is the unique ID. Repeat numbers update the same profile, not a duplicate entry.</p>
+<div class="row"><div class="field"><label>Search by name or mobile number</label><input id="customerSearch" placeholder="Search customer..."></div><button id="addCustomerTab" class="secondary">Refresh list</button></div>
+<div id="customerList"></div>
+<div id="customerProfile"></div>
+</div>
+</section>
+
+<section id="historyPanel" class="panel">
+<div class="stats">
+<div class="stat"><span>Today's sales</span><strong id="dayTotal">₹0</strong></div>
+<div class="stat"><span>Cash received</span><strong id="dayCash">₹0</strong></div>
+<div class="stat"><span>Online received</span><strong id="dayOnline">₹0</strong></div>
+<div class="stat"><span>Card received</span><strong id="dayCard">₹0</strong></div>
+</div>
+<div class="card">
+<div class="row"><div><h2>Saved bills</h2><p class="muted">Today's totals use the date saved on each bill.</p></div><button id="exportData" class="secondary">Export backup</button><button id="importBtn" class="secondary">Import</button><input id="importFile" type="file" accept="application/json" hidden></div>
+<div id="billHistory"></div>
+</div>
+</section>
+</main>
+<div id="billModal" style="display:none;position:fixed;inset:0;background:#0009;z-index:9999;padding:16px;overflow:auto">
+ <div style="max-width:560px;margin:4vh auto;background:#222725;color:#111;border-radius:16px;padding:22px;box-shadow:0 20px 60px #0004">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><strong>Bill preview</strong><button id="closeBillModal" class="secondary">Close</button></div>
+  <div id="billModalContent" style="margin-top:16px"></div>
+  <div class="actions no-print" style="margin-top:18px"><button id="modalPdf">Share PDF / WhatsApp</button><button id="modalPrint" class="secondary">Print / Save PDF</button></div>
+ </div>
+</div>
+</div><!-- end appShell -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, collection, getDocs, onSnapshot, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCXskxp0w8tAljV-6mCz-FN5sCuJagFpN4",
+  authDomain: "ladywear-collection-c9284.firebaseapp.com",
+  projectId: "ladywear-collection-c9284",
+  storageBucket: "ladywear-collection-c9284.firebasestorage.app",
+  messagingSenderId: "276056105346",
+  appId: "1:276056105346:web:e54c9912b066032691ef9b",
+  measurementId: "G-Z863Y8GPSV"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const CLOUD_MAP = {
+  products: "products",
+  bills: "bills",
+  customers: "customers",
+  expenses: "expenses",
+  salaryPayments: "salaryPayments"
+};
+let cloudReady = false;
+let cloudUnsubscribers = [];
+let syncingFromCloud = false;
+let cloudSyncTimer = null;
+
+function authMessage(message, error=false) {
+  const el = document.getElementById("authMessage");
+  if (el) { el.textContent = message; el.style.color = error ? "#ff9a9a" : "#e5c77d"; }
+}
+
+const $=id=>document.getElementById(id);
+const money=n=>'₹'+(Number(n)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const dateTime=()=>new Date().toLocaleString('en-IN');
+const load=(k,fb=[])=>{try{return JSON.parse(localStorage.getItem(k))??fb}catch{return fb}};
+let products=load('mono_products'),bills=load('mono_bills'),customers=load('mono_customers'),expenses=load('mono_expenses'),salaryPayments=load('mono_salary_payments'),cart=[],currentBillId=null;
+
+const localArrayKeys = {
+  products: "mono_products", bills: "mono_bills", customers: "mono_customers",
+  expenses: "mono_expenses", salaryPayments: "mono_salary_payments"
+};
+function currentArrays() {
+  return { products, bills, customers, expenses, salaryPayments };
+}
+function setArray(name, value) {
+  if (name === "products") products = value;
+  if (name === "bills") bills = value;
+  if (name === "customers") customers = value;
+  if (name === "expenses") expenses = value;
+  if (name === "salaryPayments") salaryPayments = value;
+}
+function saveLocalOnly() {
+  const a = currentArrays();
+  for (const [name, key] of Object.entries(localArrayKeys)) {
+    localStorage.setItem(key, JSON.stringify(a[name] || []));
+  }
+}
+async function syncCollectionToCloud(name) {
+  if (!cloudReady || syncingFromCloud || !auth.currentUser) return;
+  const colName = CLOUD_MAP[name];
+  const localItems = currentArrays()[name] || [];
+  const snap = await getDocs(collection(db, colName));
+  const localIds = new Set(localItems.map(item => String(item.id)));
+  const jobs = [];
+  for (const item of localItems) {
+    if (!item || item.id == null) continue;
+    jobs.push(setDoc(doc(db, colName, String(item.id)), item));
+  }
+  for (const remoteDoc of snap.docs) {
+    if (!localIds.has(remoteDoc.id)) jobs.push(deleteDoc(remoteDoc.ref));
+  }
+  await Promise.all(jobs);
+}
+function scheduleCloudSync() {
+  if (!cloudReady || syncingFromCloud || !auth.currentUser) return;
+  clearTimeout(cloudSyncTimer);
+  cloudSyncTimer = setTimeout(async () => {
+    try {
+      for (const name of Object.keys(CLOUD_MAP)) await syncCollectionToCloud(name);
+      authMessage("Cloud sync active ✓");
+    } catch (err) {
+      console.error(err);
+      authMessage("Cloud sync failed. Check Firestore Rules and internet.", true);
+    }
+  }, 250);
+}
+function renderEverything() {
+  renderCart(); renderProducts(); renderHistory(); renderCustomers(); renderAnalytics(); renderSalary();
+  if ($("billSearchInput")?.value) searchBills();
+}
+async function startCloudSync() {
+  cloudReady = false;
+  syncingFromCloud = true;
+  cloudUnsubscribers.forEach(fn => fn());
+  cloudUnsubscribers = [];
+  const names = Object.keys(CLOUD_MAP);
+  try {
+    for (const name of names) {
+      const snap = await getDocs(collection(db, CLOUD_MAP[name]));
+      if (snap.empty) {
+        // First-time setup: upload this device's existing local data if the cloud collection is empty.
+        const localItems = currentArrays()[name] || [];
+        for (const item of localItems) {
+          if (item?.id != null) await setDoc(doc(db, CLOUD_MAP[name], String(item.id)), item);
+        }
+      } else {
+        setArray(name, snap.docs.map(d => d.data()));
+      }
+    }
+    saveLocalOnly();
+    syncingFromCloud = false;
+    cloudReady = true;
+    for (const name of names) {
+      const unsubscribe = onSnapshot(collection(db, CLOUD_MAP[name]), snap => {
+        syncingFromCloud = true;
+        setArray(name, snap.docs.map(d => d.data()));
+        saveLocalOnly();
+        syncingFromCloud = false;
+        renderEverything();
+      }, err => {
+        console.error(err);
+        authMessage("Cloud read blocked. Check Firestore Rules.", true);
+      });
+      cloudUnsubscribers.push(unsubscribe);
+    }
+    renderEverything();
+    authMessage("Signed in • Cloud sync active ✓");
+  } catch (err) {
+    syncingFromCloud = false;
+    console.error(err);
+    authMessage("Firebase setup error: check Firestore Rules, then refresh.", true);
+  }
+}
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const email = $("loginEmail").value.trim();
+  const password = $("loginPassword").value;
+  $("loginButton").disabled = true;
+  authMessage("Signing in…");
+  try {
+    if (!navigator.onLine) throw new Error("NO_INTERNET");
+    await Promise.race([
+      signInWithEmailAndPassword(auth, email, password),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("LOGIN_TIMEOUT")), 15000))
+    ]);
+  } catch (err) {
+    console.error(err);
+    const message = err.code === "auth/invalid-credential" || err.code === "auth/wrong-password" || err.code === "auth/user-not-found"
+      ? "Email ya password galat hai."
+      : err.code === "auth/too-many-requests" ? "Bahut attempts hue. Thodi der baad try kar."
+      : err.message === "NO_INTERNET" ? "Internet connection check kar."
+      : err.message === "LOGIN_TIMEOUT" ? "Login timeout hua. Internet, Firebase Authentication aur APK converter check kar."
+      : "Login failed: " + (err.code || err.message || "check internet and Firebase setup");
+    authMessage(message, true);
+  } finally { $("loginButton").disabled = false; }
+});
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    $("authGate").style.display = "none";
+    $("appShell").style.display = "block";
+    await startCloudSync();
+    if (!$("logoutButton")) {
+      const btn = document.createElement("button");
+      btn.id = "logoutButton"; btn.className = "secondary"; btn.textContent = "Logout";
+      btn.style.marginLeft = "10px";
+      btn.onclick = async () => { cloudReady = false; cloudUnsubscribers.forEach(fn=>fn()); cloudUnsubscribers=[]; await signOut(auth); };
+      document.querySelector("header > div:last-child").appendChild(btn);
+    }
+  } else {
+    cloudReady = false;
+    cloudUnsubscribers.forEach(fn => fn()); cloudUnsubscribers = [];
+    $("appShell").style.display = "none";
+    $("authGate").style.display = "flex";
+  }
+});
+$('todayLabel').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+function persist(){saveLocalOnly();scheduleCloudSync()}
+function showTab(id){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.tab').forEach(b=>{const on=b.dataset.tab===id;b.classList.toggle('active',on);b.classList.toggle('secondary',!on)});if(id==='productsPanel')renderProducts();if(id==='historyPanel')renderHistory();if(id==='customersPanel')renderCustomers();if(id==='analyticsPanel')renderAnalytics();if(id==='salaryPanel')renderSalary()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function addCart(name,price,qty=1,productId=null){cart.push({key:crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()),name,price:Number(price)||0,qty:Number(qty)||1,productId});renderCart()}
+function subtotal(){return cart.reduce((s,x)=>s+x.price*x.qty,0)}
+function renderCart(){
+ const wrap=$('cartWrap');
+ if(!cart.length){wrap.innerHTML='<div class="empty">No items added yet.</div>'}
+ else{wrap.innerHTML=`<div style="overflow-x:auto"><table><thead><tr><th>Item</th><th>Qty</th><th>Price ₹</th><th>Amount</th><th></th></tr></thead><tbody>${cart.map(x=>`<tr><td>${esc(x.name)}</td><td><input class="qty" type="number" min="1" step="1" value="${x.qty}" data-key="${x.key}" data-field="qty" aria-label="Quantity"></td><td><input class="price" type="number" min="0" step=".01" value="${x.price}" data-key="${x.key}" data-field="price" aria-label="Price"></td><td>${money(x.qty*x.price)}</td><td><button class="remove" data-remove="${x.key}">×</button></td></tr>`).join('')}</tbody></table></div>`}
+ wrap.querySelectorAll('input[data-key]').forEach(inp=>inp.onchange=()=>{const x=cart.find(i=>i.key===inp.dataset.key);if(!x)return;const v=Number(inp.value);x[inp.dataset.field]=inp.dataset.field==='qty'?Math.max(1,Math.floor(v||1)):Math.max(0,v||0);renderCart()});
+ wrap.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{cart=cart.filter(x=>x.key!==b.dataset.remove);renderCart()});
+ $('subtotal').textContent=money(subtotal());
+ if(!currentBillId)$('finalTotal').value=subtotal().toFixed(2);
+ updateTotals();
+}
+function updateTotals(){const sub=subtotal(),raw=Number($('finalTotal').value)||0,final=Math.max(0,raw);$('discount').textContent=money(Math.max(0,sub-final));$('payable').textContent=money(final);$('splitFields').hidden=$('paymentMethod').value!=='Split';const split=Number($('splitCash').value||0)+Number($('splitOnline').value||0)+Number($('splitCard').value||0);$('splitStatus').textContent=`Split total: ${money(split)} — ${Math.abs(split-final)<.01?'matches bill total':'does not match bill total'}`}
+$('finalTotal').oninput=updateTotals;$('paymentMethod').onchange=updateTotals;['splitCash','splitOnline','splitCard'].forEach(id=>$(id).oninput=updateTotals);
+$('productSearch').addEventListener('input',()=>{const q=$('productSearch').value.trim().toLowerCase(),box=$('suggestions');if(!q){box.hidden=true;return}const matches=products.filter(p=>p.name.toLowerCase().startsWith(q)||p.name.toLowerCase().includes(q)).slice(0,30);box.innerHTML=matches.length?matches.map(p=>`<div class="suggestion" data-pid="${p.id}"><span>${esc(p.name)}</span><strong>${money(p.price)}</strong></div>`).join(''):'<div class="suggestion">No saved product found</div>';box.hidden=false;box.querySelectorAll('[data-pid]').forEach(el=>el.onclick=()=>{const p=products.find(p=>p.id===el.dataset.pid);if(p)addCart(p.name,p.price,1,p.id);$('productSearch').value='';box.hidden=true})});
+document.addEventListener('click',e=>{if(!e.target.closest('#productSearch')&&!e.target.closest('#suggestions'))$('suggestions').hidden=true});
+$('addCustom').onclick=()=>{const n=$('customName').value.trim(),p=Number($('customPrice').value),q=Number($('customQty').value)||1;if(!n){alert('Enter an item name.');return}if(!Number.isFinite(p)||p<0){alert('Enter a valid price.');return}addCart(n,p,q);$('customName').value='';$('customPrice').value='';$('customQty').value=1};
+$('saveProduct').onclick=()=>{const name=$('productName').value.trim(),price=Number($('productPrice').value);if(!name||$('productPrice').value===''||price<0){alert('Enter product name and a valid price.');return}const exists=products.find(p=>p.name.toLowerCase()===name.toLowerCase());if(exists){if(!confirm('This product already exists. Update its default price?'))return;exists.price=price}else products.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),name,price});persist();$('productName').value='';$('productPrice').value='';renderProducts();alert('Product saved.')};
+function renderProducts(){const box=$('productList');if(!products.length){box.innerHTML='<div class="empty">No products yet. Add your first product above.</div>';return}box.innerHTML=`<div style="overflow-x:auto"><table><thead><tr><th>Product</th><th>Default price</th><th></th></tr></thead><tbody>${products.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(p=>`<tr><td>${esc(p.name)}</td><td>${money(p.price)}</td><td><button class="remove" data-edit="${p.id}">Edit</button> <button class="remove" data-del="${p.id}">Delete</button></td></tr>`).join('')}</tbody></table></div>`;box.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const p=products.find(x=>x.id===b.dataset.edit);const n=prompt('Product name',p.name);if(n===null)return;const price=prompt('Default price (₹)',p.price);if(price===null)return;if(!n.trim()||!Number.isFinite(Number(price))||Number(price)<0){alert('Invalid details');return}p.name=n.trim();p.price=Number(price);persist();renderProducts()});box.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('Delete this product from catalogue?')){products=products.filter(p=>p.id!==b.dataset.del);persist();renderProducts()}})}
+function paymentParts(total,method){if(method==='Cash')return{cash:total,online:0,card:0};if(method==='Online')return{cash:0,online:total,card:0};if(method==='Card')return{cash:0,online:0,card:total};return{cash:Number($('splitCash').value)||0,online:Number($('splitOnline').value)||0,card:Number($('splitCard').value)||0}}
+function makeBill(){const sub=subtotal(),total=Math.max(0,Number($('finalTotal').value)||0),method=$('paymentMethod').value,parts=paymentParts(total,method);if(!cart.length){alert('Add at least one product first.');return null}if(method==='Split'&&Math.abs(parts.cash+parts.online+parts.card-total)>.009){alert('Cash + Online + Card must equal the final total.');return null}return{id:currentBillId||('BW-'+Date.now().toString().slice(-8)),date:currentBillId?(bills.find(b=>b.id===currentBillId)?.date||dateTime()):dateTime(),day:currentBillId?(bills.find(b=>b.id===currentBillId)?.day||today()):today(),customer:$('customerName').value.trim(),phone:$('customerPhone').value.trim(),items:cart.map(x=>({name:x.name,qty:x.qty,price:x.price,amount:x.qty*x.price})),subtotal:sub,discount:Math.max(0,sub-total),total,method,parts,paid:parts.cash+parts.online+parts.card,due:0,note:$('billNote').value.trim()}}
+function saveCurrent(){const b=makeBill();if(!b)return null;const idx=bills.findIndex(x=>x.id===b.id);if(idx>=0)bills[idx]=b;else bills.push(b);currentBillId=b.id;persist();renderHistory();alert('Bill saved on this device. Bill ID: '+b.id);return b}
+$('saveBill').onclick=saveCurrent;
+function billText(b){return `*LADYWEAR COLLECTION*\n*SALES INVOICE*\nBill: ${b.id}\nDate: ${b.date}\n${b.customer?'Customer: '+b.customer+'\n':''}\n${b.items.map((x,i)=>`${i+1}. ${x.name} x ${x.qty} @ ${money(x.price)} = ${money(x.amount)}`).join('\n')}\n\nSubtotal: ${money(b.subtotal)}\nDiscount: ${money(b.discount)}\n*TOTAL: ${money(b.total)}*\nPayment: ${b.method}${b.method==='Split'?`\nCash: ${money(b.parts.cash)}\nOnline: ${money(b.parts.online)}\nCard: ${money(b.parts.card)}`:''}${b.note?'\n\n'+b.note:''}\n\nThank you for shopping!`}
+function sendWhatsApp(b){
+  let phone=(b.phone||$('customerPhone').value).replace(/\D/g,'');
+  if(!phone){alert('Enter customer WhatsApp number with country code, e.g. 919876543210.');return}
+  if(phone.length===10)phone='91'+phone;
+  const url='https://wa.me/'+phone+'?text='+encodeURIComponent(billText(b));
+  const a=document.createElement('a');
+  a.href=url;
+  a.target='_blank';
+  a.rel='noopener noreferrer';
+  a.style.display='none';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+$('whatsappBill').onclick=()=>{let b=currentBillId?bills.find(x=>x.id===currentBillId):null;if(!b)b=saveCurrent();if(b)sendWhatsApp(b)};
+function receiptHTML(b){return `<div style="max-width:720px;margin:0 auto"><h1>LADYWEAR COLLECTION</h1><p style="text-align:center;font-size:12px;letter-spacing:1px">SALES INVOICE</p><p style="text-align:center">Thank you for shopping!</p><hr><p><b>Bill ID:</b> ${esc(b.id)}<br><b>Date:</b> ${esc(b.date)}<br><b>Customer:</b> ${esc(b.customer||'Walk-in customer')}<br><b>Phone:</b> ${esc(b.phone||'-')}</p><table><thead><tr><th>Item</th><th>Qty</th><th>Price</th><th class="r">Amount</th></tr></thead><tbody>${b.items.map(x=>`<tr><td>${esc(x.name)}</td><td>${x.qty}</td><td>${money(x.price)}</td><td class="r">${money(x.amount)}</td></tr>`).join('')}</tbody></table><div style="max-width:300px;margin:20px 0 0 auto"><p>Subtotal: <b style="float:right">${money(b.subtotal)}</b></p><p>Discount: <b style="float:right">${money(b.discount)}</b></p><p class="total">TOTAL: <span style="float:right">${money(b.total)}</span></p><p>Payment: <b style="float:right">${esc(b.method)}</b></p>${b.method==='Split'?`<p>Cash: <b style="float:right">${money(b.parts.cash)}</b></p><p>Online: <b style="float:right">${money(b.parts.online)}</b></p><p>Card: <b style="float:right">${money(b.parts.card)}</b></p>`:''}</div>${b.note?`<p>${esc(b.note)}</p>`:''}<hr><p style="text-align:center">Please visit again.</p></div>`}
+function prepareReceipt(){let b=currentBillId?bills.find(x=>x.id===currentBillId):null;if(!b)b=makeBill();if(!b)return null;$('pdfReceipt').innerHTML=receiptHTML(b);return b}
+$('printBill').onclick=()=>{if(!cart.length){alert('Add items first.');return}if(!prepareReceipt())return;window.print()};
+$('pdfBill').onclick=()=>{const b=makeBill();if(!b)return;const idx=bills.findIndex(x=>x.id===b.id);if(idx>=0)bills[idx]=b;else bills.push(b);currentBillId=b.id;persist();renderHistory();downloadBillPDF(b)};
+$('newBill').onclick=()=>{if(cart.length&&!confirm('Clear current bill and start a new one?'))return;cart=[];currentBillId=null;['customerName','customerPhone','productSearch','customName','customPrice','billNote'].forEach(id=>$(id).value='');$('customQty').value=1;$('paymentMethod').value='Cash';['splitCash','splitOnline','splitCard'].forEach(id=>$(id).value=0);$('finalTotal').value=0;renderCart()};
+function prepareReceiptFrom(b){$('pdfReceipt').innerHTML=receiptHTML(b)}
+$('closeBillModal').onclick=()=>$('billModal').style.display='none';
+$('billModal').onclick=e=>{if(e.target===$('billModal'))$('billModal').style.display='none'};
+function buildPDF(b){
+ if(!window.jspdf?.jsPDF)throw new Error('PDF library unavailable. Internet connection needed for PDF creation.');
+ const {jsPDF}=window.jspdf,doc=new jsPDF({unit:'mm',format:'a4'}),pageW=210,margin=16;
+ const pdfMoney=n=>'Rs. '+(Number(n)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+ doc.setFillColor(17,17,17);doc.rect(0,0,pageW,34,'F');
+ doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(19);doc.text('LADYWEAR COLLECTION',margin,15);
+ doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('Your trusted shopping destination',margin,23);
+ doc.text('TAX INVOICE / BILL',pageW-margin,15,{align:'right'});
+ doc.setTextColor(25,25,25);doc.setFontSize(10);
+ let y=45;doc.setFont('helvetica','bold');doc.text('Bill ID',margin,y);doc.text('Date',110,y);
+ doc.setFont('helvetica','normal');doc.text(String(b.id),margin,y+6);doc.text(String(b.date),110,y+6);
+ y+=18;doc.setFont('helvetica','bold');doc.text('Customer',margin,y);doc.text('WhatsApp',110,y);
+ doc.setFont('helvetica','normal');doc.text(String(b.customer||'Walk-in customer').slice(0,42),margin,y+6);doc.text(String(b.phone||'-').slice(0,28),110,y+6);
+ y+=18;doc.setFillColor(238,238,238);doc.rect(margin,y,pageW-margin*2,9,'F');
+ doc.setFont('helvetica','bold');doc.text('ITEM',margin+2,y+6);doc.text('QTY',112,y+6,{align:'right'});doc.text('PRICE',148,y+6,{align:'right'});doc.text('AMOUNT',pageW-margin-2,y+6,{align:'right'});
+ y+=9;doc.setFont('helvetica','normal');
+ b.items.forEach((it,i)=>{if(y>255){doc.addPage();y=20}doc.setDrawColor(225,225,225);doc.line(margin,y+7,pageW-margin,y+7);doc.text(String(it.name).slice(0,43),margin+2,y+5);doc.text(String(it.qty),112,y+5,{align:'right'});doc.text(pdfMoney(it.price),148,y+5,{align:'right'});doc.text(pdfMoney(it.amount),pageW-margin-2,y+5,{align:'right'});y+=10});
+ y+=10;const sx=pageW-margin-65;doc.setFontSize(10);doc.text('Subtotal',sx,y);doc.text(pdfMoney(b.subtotal),pageW-margin,y,{align:'right'});y+=7;doc.text('Discount',sx,y);doc.text('- '+pdfMoney(b.discount),pageW-margin,y,{align:'right'});y+=5;doc.setFillColor(17,17,17);doc.roundedRect(sx-3,y,68,13,2,2,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('TOTAL',sx,y+8.5);doc.text(pdfMoney(b.total),pageW-margin-2,y+8.5,{align:'right'});y+=21;doc.setTextColor(30,30,30);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.text('Payment method: '+b.method,margin,y);
+ if(b.method==='Split'){y+=7;doc.text(`Cash: ${pdfMoney(b.parts.cash)}   Online: ${pdfMoney(b.parts.online)}   Card: ${pdfMoney(b.parts.card)}`,margin,y)}
+ if(b.note){y+=9;doc.text(doc.splitTextToSize(String(b.note),pageW-margin*2),margin,y)}
+ doc.setDrawColor(180,180,180);doc.line(margin,278,pageW-margin,278);doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text('LADYWEAR COLLECTION',pageW/2,284,{align:'center'});doc.setFont('helvetica','normal');doc.text('Thank you for shopping with us',pageW/2,289,{align:'center'});
+ return doc;
+}
+function downloadBillPDF(b){
+ try{
+  const doc=buildPDF(b);
+  doc.save(`${b.id}.pdf`);
+ }catch(e){alert('PDF nahi ban paya. Internet on karke dobara try kar.');}
+}
+$('closeBillModal').onclick=()=>$('billModal').style.display='none';
+$('billModal').onclick=e=>{if(e.target===$('billModal'))$('billModal').style.display='none'};
+$('modalPdf').textContent='Download PDF';
+$('modalPdf').onclick=()=>{const b=modalBill;if(b)downloadBillPDF(b)};
+$('modalPrint').onclick=()=>{if(modalBill){prepareReceiptFrom(modalBill);window.print()}};
+let modalBill=null;
+function openBillPreview(b){modalBill=b;$('billModalContent').innerHTML=receiptHTML(b);$('billModal').style.display='block'}
+
+function normalizePhone(v){let d=String(v||'').replace(/\D/g,'');if(d.length===12&&d.startsWith('91'))d=d.slice(2);if(d.length>10)d=d.slice(-10);return d}
+function saveCustomerFromForm(){
+ const phone=normalizePhone($('customerPhone').value),name=$('customerName').value.trim();
+ if(!phone)return;
+ if(phone.length!==10){$('customerPhone').setCustomValidity('Enter a valid 10-digit mobile number');return}
+ $('customerPhone').setCustomValidity('');
+ let c=customers.find(x=>normalizePhone(x.phone)===phone);
+ if(c){if(name)c.name=name;c.updated=dateTime()}
+ else{c={id:'C-'+Date.now(),name:name||'Customer',phone,created:dateTime(),updated:dateTime()};customers.push(c)}
+ persist();renderCustomers();
+}
+$('customerPhone').addEventListener('blur',saveCustomerFromForm);
+$('customerName').addEventListener('blur',()=>{if($('customerPhone').value.trim())saveCustomerFromForm()});
+$('customerPhone').addEventListener('change',()=>{
+ const phone=normalizePhone($('customerPhone').value),c=customers.find(x=>normalizePhone(x.phone)===phone);
+ if(c){$('customerName').value=c.name||'';}
+});
+function renderCustomers(){
+ const q=($('customerSearch')?.value||'').trim().toLowerCase(),list=$('customerList');
+ const arr=customers.filter(c=>(c.name||'').toLowerCase().includes(q)||String(c.phone).includes(q)).sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+ if(!arr.length){list.innerHTML='<div class="empty">No customers found. Customer profiles are created automatically when you enter a valid number on a bill.</div>';return}
+ list.innerHTML=arr.map(c=>`<div class="customerrow"><div class="billmeta"><strong>${esc(c.name||'Customer')}</strong><small>${esc(c.phone)} · ${bills.filter(b=>normalizePhone(b.phone)===normalizePhone(c.phone)).length} bills</small></div><button class="secondary" data-customer="${c.id}">Open profile</button></div>`).join('');
+ list.querySelectorAll('[data-customer]').forEach(btn=>btn.onclick=()=>openCustomerProfile(btn.dataset.customer));
+}
+function openCustomerProfile(id){
+ const c=customers.find(x=>x.id===id);if(!c)return;
+ const cb=bills.filter(b=>normalizePhone(b.phone)===normalizePhone(c.phone)).slice().reverse();
+ const total=cb.reduce((s,b)=>s+(Number(b.total)||0),0);
+ $('customerProfile').innerHTML=`<div class="customer-profile"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><div><h2 style="margin-bottom:3px">${esc(c.name||'Customer')}</h2><div>${esc(c.phone)}</div><div class="muted">Customer since ${esc(c.created||'-')}</div></div><button class="secondary" id="useCustomer">New bill for customer</button></div><div class="profile-stat"><span>Total bills</span><strong>${cb.length}</strong></div><div class="profile-stat"><span>Total purchases</span><strong>${money(total)}</strong></div><h3 style="margin-top:14px">Bill history</h3>${cb.length?cb.map(b=>`<div class="billrow"><div class="billmeta"><strong>${esc(b.id)} · ${money(b.total)}</strong><small>${esc(b.date)} · ${esc(b.method)}</small></div><button class="secondary" data-cbill="${b.id}">View bill</button></div>`).join(''):'<p class="muted">No bills linked to this number yet.</p>'}</div>`;
+ $('useCustomer').onclick=()=>{$('customerName').value=c.name||'';$('customerPhone').value=c.phone;showTab('billingPanel')};
+ $('customerProfile').querySelectorAll('[data-cbill]').forEach(btn=>btn.onclick=()=>{const b=bills.find(x=>x.id===btn.dataset.cbill);if(b)openBillPreview(b)});
+}
+$('customerSearch').addEventListener('input',renderCustomers);
+$('addCustomerTab').onclick=renderCustomers;
+
+
+$('historyMonth').value=today().slice(0,7);$('expenseDate').value=today();$('salaryDate').value=today();$('salaryMonthFilter').value=today().slice(0,7);
+function monthOf(b){return String(b.day||'').slice(0,7)}
+
+const STAFF_NAMES=['Faisal','Junaid bhai','Chachu','Ayan king 👑'];
+$('recordSalary').onclick=()=>{
+ const staff=$('salaryStaff').value,amount=Number($('salaryAmount').value),date=$('salaryDate').value||today(),method=$('salaryMethod').value,note=$('salaryNote').value.trim();
+ if(!Number.isFinite(amount)||amount<=0){alert('Enter a valid salary amount.');return}
+ const rec={id:'SAL-'+Date.now(),staff,amount,date,method,note,created:dateTime()};
+ salaryPayments.push(rec);
+ expenses.push({id:'E-SAL-'+rec.id,amount,date,category:'Staff wages',method,note:`${staff}${note?' — '+note:''}`,salaryPaymentId:rec.id,created:dateTime()});
+ persist();$('salaryAmount').value='';$('salaryNote').value='';renderSalary();renderAnalytics();
+ alert('Salary payment saved for '+staff+'.');
+};
+$('filterSalary').onclick=renderSalary;
+function renderSalary(){
+ const month=$('salaryMonthFilter').value||today().slice(0,7),staff=$('salaryStaffFilter').value;
+ const monthRecords=salaryPayments.filter(x=>String(x.date).slice(0,7)===month);
+ const visible=monthRecords.filter(x=>!staff||x.staff===staff).slice().reverse();
+ const paid=monthRecords.reduce((s,x)=>s+(Number(x.amount)||0),0);
+ $('salaryMonthPaid').textContent=money(paid);$('salaryPaymentCount').textContent=monthRecords.length;$('staffCount').textContent=STAFF_NAMES.length;$('salaryExpenseTotal').textContent=money(paid);
+ const box=$('salaryHistory');
+ box.innerHTML=visible.length?visible.map(x=>`<div class="billrow"><div class="billmeta"><strong>${esc(x.staff)} · ${money(x.amount)}</strong><small>${esc(x.date)} · ${esc(x.method)}${x.note?' · '+esc(x.note):''}</small></div><button class="remove" data-salary-delete="${x.id}">Delete</button></div>`).join(''):'<div class="empty">No salary payments recorded for this filter.</div>';
+ box.querySelectorAll('[data-salary-delete]').forEach(btn=>btn.onclick=()=>{if(!confirm('Delete this salary record? Its linked store expense will also be deleted.'))return;salaryPayments=salaryPayments.filter(x=>x.id!==btn.dataset.salaryDelete);expenses=expenses.filter(e=>e.salaryPaymentId!==btn.dataset.salaryDelete);persist();renderSalary();renderAnalytics()});
+}
+
+function renderAnalytics(){
+ const month=$('historyMonth').value||today().slice(0,7),date=$('historyDate').value;
+ const chosen=bills.filter(b=>date?(b.day===date):(monthOf(b)===month));
+ const total=chosen.reduce((s,b)=>s+(Number(b.total)||0),0),discount=chosen.reduce((s,b)=>s+(Number(b.discount)||0),0);
+ const pending=expenses.filter(e=>(date?e.date===date:String(e.date||'').slice(0,7)===month)).reduce((s,e)=>s+(Number(e.amount)||0),0);
+ $('periodSales').textContent=money(total);$('periodBills').textContent=chosen.length;$('periodDiscount').textContent=money(discount);$('periodDue').textContent=money(pending);$('periodNet').textContent=money(total-pending);
+ const daily={};chosen.forEach(b=>{const k=b.day||'Unknown';if(!daily[k])daily[k]={sales:0,count:0,items:{},cash:0,online:0,card:0};const d=daily[k];d.sales+=Number(b.total)||0;d.count++;d.cash+=Number(b.parts?.cash)||0;d.online+=Number(b.parts?.online)||0;d.card+=Number(b.parts?.card)||0;(b.items||[]).forEach(it=>{if(!d.items[it.name])d.items[it.name]={qty:0,amount:0};d.items[it.name].qty+=Number(it.qty)||0;d.items[it.name].amount+=Number(it.amount)||((Number(it.qty)||0)*(Number(it.price)||0))})});
+ const box=$('historyBreakdown');
+ if(!chosen.length){box.innerHTML='<div class="empty">No sales found for this period.</div>'}else{
+ box.innerHTML=Object.keys(daily).sort().reverse().map(day=>{const d=daily[day];return `<div class="card" style="margin-top:12px;background:#202522"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><h3>${esc(day)}</h3><strong>${money(d.sales)} · ${d.count} bill(s)</strong></div><p class="muted">Cash ${money(d.cash)} · Online ${money(d.online)} · Card ${money(d.card)}</p><div style="overflow-x:auto"><table><thead><tr><th>Product sold</th><th>Qty</th><th>Amount</th></tr></thead><tbody>${Object.entries(d.items).map(([name,it])=>`<tr><td>${esc(name)}</td><td>${it.qty}</td><td>${money(it.amount)}</td></tr>`).join('')}</tbody></table></div><div style="margin-top:10px"><strong>Bill list</strong>${chosen.filter(b=>b.day===day).map(b=>`<div class="billrow"><div class="billmeta"><strong>${esc(b.id)} · ${money(b.total)}</strong><small>${esc(b.customer||'Walk-in')} · ${esc(b.method)}</small></div><button class="secondary" data-historybill="${b.id}">View</button></div>`).join('')}</div></div>`}).join('');
+ box.querySelectorAll('[data-historybill]').forEach(btn=>btn.onclick=()=>{const b=bills.find(x=>x.id===btn.dataset.historybill);if(b)openBillPreview(b)});
+ }
+
+ const expenseBox=$('expenseHistory'),filtered=expenses.filter(e=>date?e.date===date:String(e.date||'').slice(0,7)===month).slice().reverse();
+ expenseBox.innerHTML=filtered.length?filtered.map(e=>`<div class="billrow"><div class="billmeta"><strong>${esc(e.category)} · ${money(e.amount)}</strong><small>${esc(e.date)} · ${esc(e.method)} · ${esc(e.note||'No note')}</small></div><button class="remove" data-expense-delete="${e.id}">Delete</button></div>`).join(''):'<div class="empty">No store expenses recorded for this period.</div>';
+ expenseBox.querySelectorAll('[data-expense-delete]').forEach(btn=>btn.onclick=()=>{if(confirm('Delete this expense record?')){expenses=expenses.filter(e=>e.id!==btn.dataset.expenseDelete);persist();renderAnalytics()}});
+}
+$('refreshAnalytics').onclick=renderAnalytics;
+$('historyMonth').onchange=()=>{$('historyDate').value='';renderAnalytics()};
+$('historyDate').onchange=()=>renderAnalytics();
+$('addExpense').onclick=()=>{
+ const amount=Number($('expenseAmount').value),date=$('expenseDate').value||today(),category=$('expenseCategory').value,method=$('expenseMethod').value,note=$('expenseNote').value.trim();
+ if(!Number.isFinite(amount)||amount<=0){alert('Enter a valid expense amount.');return}
+ expenses.push({id:'E-'+Date.now(),amount,date,category,method,note,created:dateTime()});
+ persist();$('expenseAmount').value='';$('expenseNote').value='';renderAnalytics();
+};
+
+
+function searchBills(){
+ const q=$('billSearchInput').value.trim().toLowerCase(),box=$('billSearchResults');
+ if(!q){box.innerHTML='<div class="empty">Enter a bill number or customer mobile number.</div>';return}
+ const digits=q.replace(/\D/g,'');
+ const found=bills.filter(b=>String(b.id||'').toLowerCase().includes(q)||(digits.length>=4&&String(b.phone||'').replace(/\D/g,'').includes(digits)));
+ box.innerHTML=found.length?found.slice().reverse().map(b=>`<div class="billrow"><div class="billmeta"><strong>${esc(b.id)} · ${money(b.total)}</strong><small>${esc(b.date)} · ${esc(b.customer||'Walk-in customer')} · ${esc(b.phone||'No number')}</small></div><button class="secondary" data-openbill="${b.id}">View bill</button></div>`).join(''):'<div class="empty">No matching bill found on this device.</div>';
+ box.querySelectorAll('[data-openbill]').forEach(btn=>btn.onclick=()=>{const b=bills.find(x=>x.id===btn.dataset.openbill);if(b)openBillPreview(b)});
+}
+$('searchBillBtn').onclick=searchBills;
+$('billSearchInput').addEventListener('keydown',e=>{if(e.key==='Enter')searchBills()});
+
+function renderHistory(){const todays=bills.filter(b=>b.day===today());const sums=todays.reduce((a,b)=>{a.total+=b.total;a.cash+=b.parts?.cash||0;a.online+=b.parts?.online||0;a.card+=b.parts?.card||0;return a},{total:0,cash:0,online:0,card:0});$('dayTotal').textContent=money(sums.total);$('dayCash').textContent=money(sums.cash);$('dayOnline').textContent=money(sums.online);$('dayCard').textContent=money(sums.card);const box=$('billHistory');if(!bills.length){box.innerHTML='<div class="empty">No saved bills yet.</div>';return}box.innerHTML=bills.slice().reverse().map(b=>`<div class="billrow"><div class="billmeta"><strong>${esc(b.id)} · ${money(b.total)}</strong><small>${esc(b.date)} · ${esc(b.customer||'Walk-in customer')} · ${esc(b.method)}</small></div><div class="actions" style="flex:0 0 auto"><button class="secondary" data-view="${b.id}">View</button><button class="secondary" data-send="${b.id}">WhatsApp</button></div></div>`).join('');box.querySelectorAll('[data-view]').forEach(btn=>btn.onclick=()=>{const b=bills.find(x=>x.id===btn.dataset.view);if(!b)return;openBillPreview(b);});box.querySelectorAll('[data-send]').forEach(btn=>btn.onclick=()=>{const b=bills.find(x=>x.id===btn.dataset.send);if(b)sendWhatsApp(b)})}
+$('exportData').onclick=()=>{const blob=new Blob([JSON.stringify({products,bills,customers,expenses,salaryPayments},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`store-billing-backup-${today()}.json`;a.click();URL.revokeObjectURL(url)};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d.products)||!Array.isArray(d.bills))throw Error();if(!confirm('Import backup and replace current products and bills?'))return;products=d.products;bills=d.bills;customers=Array.isArray(d.customers)?d.customers:[];expenses=Array.isArray(d.expenses)?d.expenses:[];salaryPayments=Array.isArray(d.salaryPayments)?d.salaryPayments:[];persist();renderProducts();renderHistory();renderCustomers();alert('Backup imported.')}catch{alert('Invalid backup file.')}e.target.value=''};
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+// Rendering starts after successful Firebase login and cloud load.
+
+</script>
+</body>
+</html>
